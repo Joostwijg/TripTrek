@@ -1,18 +1,14 @@
-.main-loginRegister-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.main-container.loginRegisterPage{
     height: 100vh;
-    background-image: url("src/assets/loginAndRegisterPage/Login_Register_Background.png");
+    background-image: url("../../assets/backgrounds/Login_Register_Background.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding: 15px;
     overflow: hidden;
     position: relative;
-    overflow: hidden;
 }
+
+
 
 .login-section {
     width: 1400px;
@@ -38,19 +34,6 @@
     transition: opacity 1s ease-in-out;
 }
 
-.main-loginRegister-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-image: url("src/assets/loginAndRegisterPage/Login_Register_Background.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 15px;
-}
-
 .login-section,
 .register-section {
     transition: opacity 0.3s ease, transform 1s ease;
@@ -70,6 +53,7 @@
 .fade-in.login {
     opacity: 1;
     visibility: visible;
+    transition: 1.5s;
     transform: translateX(0); /* Komt van rechts */
     pointer-events: auto;
 }
@@ -78,14 +62,17 @@
 .fade-out.login {
     opacity: 0;
     visibility: hidden;
-    transform: translateX(100%); /* Gaat naar rechts */
+    transform: translateX(0%); /* Gaat naar rechts */
+    transition: 1.5s ;
     pointer-events: none;
 }
+
 
 /* Wanneer de register-sectie zichtbaar moet zijn (fade-in van links) */
 .fade-in.register {
     opacity: 1;
     visibility: visible;
+    transition: 1s ;
     transform: translateX(0); /* Komt van links */
     pointer-events: auto;
 }
@@ -94,22 +81,24 @@
 .fade-out.register {
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-100%); /* Gaat naar links */
+    transition: 1s;
+    transform: translateX(-30%); /* Gaat naar links */
     pointer-events: none;
 }
 
-.login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 500px;
-    height: 550px;
-    background-color: rgba(51, 51, 51, 0.7);
-    padding: 20px 50px;
-    border: solid 2px var(--orange);
-    border-radius: 10px;
+.fade-in.quote {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0%);
+    transition: 0s;
 }
+
+.fade-out.quote {
+    opacity: 0;
+    transition: 0s;
+    visibility: hidden;
+}
+
 
 .login-quote {
     width: 700px;

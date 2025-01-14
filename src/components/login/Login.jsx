@@ -9,6 +9,8 @@ const Login = ({ toggleSection }) => {
     const [message, setMessage] = useState(""); //
 
     const handleSubmit = async (e) => {
+        setEmail("");
+        setPassword("");
         e.preventDefault();
 
         try {
@@ -39,6 +41,10 @@ const Login = ({ toggleSection }) => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
+                <a
+                    className="smallText"
+                    href="/forgot-password"
+                >Forgot password</a>
                 <p>{message && <p>{message}</p>}</p>
                 <Button
                     type="submit"
