@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {registerUser} from "../../services/userService.jsx";
 
 
 const Register = () => {
@@ -7,7 +8,7 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (password !== confirmPassword) {
@@ -15,7 +16,15 @@ const Register = () => {
             return;
         }
 
-        setMessage("Registration successful", email, password);
+        try {
+            const newUser = {email, password, confirmPassword};
+            await registerUser(newUser);
+            setMessage("User registered successfully, Please log in.");
+        } catch (error) {
+            setMessage(error);
+        }
+
+
     }
 
 
