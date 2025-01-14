@@ -60,6 +60,7 @@ accent {
 
 quote {
     font-family: 'Lora', serif;
+    font-style: italic;
     font-size: 96px;
     font-weight: 600;
 }

@@ -3,7 +3,7 @@ import { loginUser } from "../../services/userService.jsx";
 import Button from "../button/Button.jsx";
 import "./Login.css"
 
-const Login = () => {
+const Login = ({ toggleSection }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState(""); //
@@ -47,7 +47,7 @@ const Login = () => {
                 </Button>
                 <Button
                     type="button"
-                    onClick={() => alert("Redirect to register")}
+                    onClick={toggleSection}
                     variant="button-orange"
                 >Register
                 </Button>
