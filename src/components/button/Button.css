@@ -19,6 +19,7 @@ button:hover {
     border-color: var(--orange);
     color: var(--white);
     display: inline;
+
 }
 
 .button-orange:hover {

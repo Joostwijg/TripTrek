@@ -20,6 +20,21 @@ Table of Contents:
     padding: 0;
 }
 
+.main-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+
+}
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+
 /* Global Setup */
 
 
@@ -78,4 +93,38 @@ quote {
     --black: #333333;
     --transparent: transparent;
     --white: #FFFFFF;
+}
+
+
+/*///////////////////////
+    3. Global Form CSS
+////////////////////// */
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+form label {
+    color: white;
+    width: 100%;
+}
+
+form input{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color: white;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--transparent);
+    border-radius: 10px;
+    border: solid 2px var(--white);
+    margin-bottom: 10px;
+    height: 60px;
+}
+
+
+
+form input:focus{
+    outline: none;
 }

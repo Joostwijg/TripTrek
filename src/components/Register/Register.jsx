@@ -15,6 +15,7 @@ const Register = ({toggleSection}) => {
 
         if (password !== confirmPassword) {
             setMessage("Passwords don't match");
+            setConfirmPassword("");
             return;
         }
 
@@ -46,6 +47,7 @@ const Register = ({toggleSection}) => {
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    required
                 />
                 <h4><label htmlFor="confirmPassword">Confirm Password:</label></h4>
                 <input
@@ -53,6 +55,7 @@ const Register = ({toggleSection}) => {
                     id="confirmPassword"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
                 />
                 <p>{message}</p>
                 <Button
