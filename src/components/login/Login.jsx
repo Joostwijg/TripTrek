@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { loginUser } from "../../services/userService.jsx";
+import Button from "../button/Button.jsx";
+import "./Login.css"
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -19,10 +21,9 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">E-mail</label>
+        <div className="div-login">
+            <form className="login-form" onSubmit={handleSubmit}>
+                <h4><label htmlFor="email">E-mail:</label></h4>
                 <input
                     type="email"
                     id="email"
@@ -30,7 +31,7 @@ const Login = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
-                <label htmlFor="pass">Password</label>
+                <h4><label htmlFor="pass">Password:</label></h4>
                 <input
                     type="password"
                     id="pass"
@@ -38,12 +39,20 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
-                <button type="submit">Login</button>
-                <button type="button" onClick={() => alert("Redirect to register")}>
-                    Registreren
-                </button>
+                <p>{message && <p>{message}</p>}</p>
+                <Button
+                    type="submit"
+                    variant="button-white"
+                >Login
+                </Button>
+                <Button
+                    type="button"
+                    onClick={() => alert("Redirect to register")}
+                    variant="button-orange"
+                >Register
+                </Button>
             </form>
-            {message && <p>{message}</p>}
+
         </div>
     );
 };

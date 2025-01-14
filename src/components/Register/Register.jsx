@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import {registerUser} from "../../services/userService.jsx";
+import Button from "../button/Button.jsx";
+
 
 
 const Register = () => {
@@ -29,31 +31,40 @@ const Register = () => {
 
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">E-mail:</label>
+        <div className="div-login">
+            <form className="login-form" onSubmit={handleSubmit}>
+                <h4><label htmlFor="email">E-mail:</label></h4>
                 <input
                     type="email"
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <label htmlFor="password">Password:</label>
+                <h4><label htmlFor="password">Password:</label></h4>
                 <input
                     type="password"
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <label htmlFor="confirmPassword">Confirm Password:</label>
+                <h4><label htmlFor="confirmPassword">Confirm Password:</label></h4>
                 <input
                     type="password"
                     id="confirmPassword"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                 />
-                <button type='submit'>Register</button>
                 <p>{message}</p>
+                <Button
+                    type="submit"
+                    variant="button-orange"
+                >Register
+                </Button>
+                <Button
+                    type="submit"
+                    variant="button-white"
+                >Already registered
+                </Button>
             </form>
         </div>
     )

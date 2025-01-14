@@ -1,22 +1,12 @@
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Login from "./components/login/Login.jsx";
-import Register from "./components/Register/Register.jsx";
+import LoginAndRegister from "./pages/loginAndRegisterPage/LoginAndRegister.jsx";
 
 
 function App() {
     return (
         <Router>
             <Routes>
-                <Route
-                    path="/"
-                    element=
-                    {
-                    <>
-                        <Login />
-                        <Register />
-                    </>
-                    }
-                />
+                <Route path="/" element={<LoginAndRegister />} />
             </Routes>
         </Router>
     )

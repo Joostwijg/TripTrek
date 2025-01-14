@@ -1,0 +1,51 @@
+.main-loginRegister-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url("src/assets/loginAndRegisterPage/Login_Register_Background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 15px;
+}
+
+.login-section {
+    width: 1400px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-around;
+}
+
+.login-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 550px;
+    background-color: rgba(51, 51, 51, 0.7);
+    padding: 20px 50px;
+    border: solid 2px var(--orange);
+    border-radius: 10px;
+}
+
+.login-quote {
+    width: 700px;
+}
+
+.login-quote quote{
+    color: var(--white);
+}
+
+.register-section {
+    width: 1400px;
+    display: none;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-around;
+}

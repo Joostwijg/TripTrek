@@ -1,0 +1,44 @@
+.div-login {
+    width: 100%;
+}
+
+.div-login h4 {
+    margin-bottom: 5px;
+}
+
+.div-login p {
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.login-form label {
+    color: white;
+    width: 100%;
+}
+
+.login-form input{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color: white;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--transparent);
+    border-radius: 10px;
+    border: solid 2px var(--white);
+    margin-bottom: 10px;
+    height: 60px;
+}
+
+.login-form input:last-of-type{
+    margin-bottom: 20px;
+}
+
+.login-form input:focus{
+    outline: none;
+}
+
