@@ -1,0 +1,143 @@
+.main-loginRegister-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url("src/assets/loginAndRegisterPage/Login_Register_Background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 15px;
+    overflow: hidden;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-section {
+    width: 1400px;
+    height: 550px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-around;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.register-section {
+    width: 1400px;
+    height: 550px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-around;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.main-loginRegister-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url("src/assets/loginAndRegisterPage/Login_Register_Background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 15px;
+}
+
+.login-section,
+.register-section {
+    transition: opacity 0.3s ease, transform 1s ease;
+    visibility: hidden;
+    position: absolute;
+}
+
+.login-section {
+    transform: translateX(100%); /* Begin buiten het scherm aan de rechterkant */
+}
+
+.register-section {
+    transform: translateX(-100%); /* Begin buiten het scherm aan de linkerkant */
+}
+
+/* Wanneer de login-sectie zichtbaar moet zijn (fade-in van rechts) */
+.fade-in.login {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0); /* Komt van rechts */
+    pointer-events: auto;
+}
+
+/* Wanneer de login-sectie verborgen moet zijn (fade-out naar rechts) */
+.fade-out.login {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(100%); /* Gaat naar rechts */
+    pointer-events: none;
+}
+
+/* Wanneer de register-sectie zichtbaar moet zijn (fade-in van links) */
+.fade-in.register {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0); /* Komt van links */
+    pointer-events: auto;
+}
+
+/* Wanneer de register-sectie verborgen moet zijn (fade-out naar links) */
+.fade-out.register {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-100%); /* Gaat naar links */
+    pointer-events: none;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 550px;
+    background-color: rgba(51, 51, 51, 0.7);
+    padding: 20px 50px;
+    border: solid 2px var(--orange);
+    border-radius: 10px;
+}
+
+.login-quote {
+    width: 700px;
+}
+
+.login-quote quote {
+    color: var(--white);
+}
+
+
+.login-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 550px;
+    background-color: rgba(51, 51, 51, 0.7);
+    padding: 20px 50px;
+    border: solid 2px var(--orange);
+    border-radius: 10px;
+}
+
+.login-quote {
+    width: 700px;
+}
+
+.login-quote quote{
+    color: var(--white);
+}
+
