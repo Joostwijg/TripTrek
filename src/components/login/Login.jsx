@@ -1,22 +1,28 @@
 import React, { useState } from "react";
+import { loginUser } from "../../services/userService.jsx";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [message, setMessage] = useState(""); //
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("email", email);
-        console.log("password", password);
+
+        try {
+            const loginDetails = { email, password };
+            const user = await loginUser(loginDetails);
+            setMessage(`Welcome back, ${user.email}!`);
+        } catch (error) {
+            setMessage("Invalid credentials, please try again.");
+        }
     };
-
-
-
 
     return (
         <div>
+            <h2>Login</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="email"> E-mail</label>
+                <label htmlFor="email">E-mail</label>
                 <input
                     type="email"
                     id="email"
@@ -33,8 +39,11 @@ const Login = () => {
                     required
                 />
                 <button type="submit">Login</button>
-                <button type="submit">Registreren</button>
+                <button type="button" onClick={() => alert("Redirect to register")}>
+                    Registreren
+                </button>
             </form>
+            {message && <p>{message}</p>}
         </div>
     );
 };
