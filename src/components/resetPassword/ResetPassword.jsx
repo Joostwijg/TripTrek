@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../button/Button.jsx";
-import {resetPassword} from "../../services/userService.jsx";
+import {resetPassword} from "../../services/PasswordService.jsx";
 import {useLocation} from "react-router-dom";
 
 

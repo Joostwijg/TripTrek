@@ -19,11 +19,3 @@ export const loginUser = async (user) => {
         throw error.response.data || "Error during login";
     }
 };
-
-export const forgotPassword = async (email) => {
-    return axios.post(`${API_URL}/forgot-password`, { email });
-}
-
-export const resetPassword = async (token, newPassword) => {
-    return axios.post(`${API_URL}/reset-password?token=${token}`, {newPassword});
-}

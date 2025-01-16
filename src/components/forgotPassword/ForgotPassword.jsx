@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import Button from "../button/Button.jsx";
-import {forgotPassword} from "../../services/userService.jsx";
+import {forgotPassword} from "../../services/PasswordService.jsx";
 import "./ForgotPassword.css"
 
-const ForgotPassword = () => {
+const ForgotPassword = (toggleSection) => {
     const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')
 
@@ -12,8 +12,8 @@ const ForgotPassword = () => {
         try{
             await forgotPassword(email);
             setMessage("Password reset email has been sent.")
-        } catch(error){
-            setMessage("Email nog registered")
+        } catch (error) {
+            setMessage("Email not registered")
         }
     }
 
@@ -31,6 +31,7 @@ const ForgotPassword = () => {
                 <p>{message}</p>
                 <Button
                     type="submit"
+                    onClick={toggleSection}
                     variant="button-orange"
                 >Reset password</Button>
             </form>
