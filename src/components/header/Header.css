@@ -1,0 +1,46 @@
+.header {
+    width: 1500px;
+}
+
+.header-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 140px;
+    background-color: var(--grey);
+    padding: 20px;
+    width: 100%;
+    gap: 20px;
+    border-radius: 15px;
+}
+
+.logo-container{
+    width: 180px;
+}
+
+.logo {
+    width: 100px;
+}
+
+.add-randomizer {
+    width: 550px;
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 60px;
+    background-color: var(--white);
+    border-radius: 15px;
+    border: solid var(--orange);
+    border-width: 0 0 4px 0;
+}
+
+.search p {
+    color: var(--darkgrey);
+}
+
+
