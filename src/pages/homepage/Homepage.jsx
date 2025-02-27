@@ -1,12 +1,21 @@
 import Header from "../../components/header/Header.jsx";
 import './Homepage.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import {useState} from "react";
+import EditProfilePopup from "../../components/editProfilePopup/EditProfilePopup.jsx";
 
 
 
 
 
 const Home = () => {
+
+    const [isPopupOpen, setisPopupOpen] = useState(false);
+
+    const openPopup = () => setisPopupOpen(true);
+    const closePopup = () => setisPopupOpen(false);
+
+
     return (
 
         <div className="main-container homepage">
@@ -30,7 +39,7 @@ const Home = () => {
                                     <p>350</p>
                                 </div>
                             </div>
-                            <div className="edit-profile-button">
+                            <div className="edit-profile-button" onClick={openPopup}>
                                 <p>Edit profile</p>
                                 <i className="fa-solid fa-arrow-right"></i>
                             </div>
@@ -42,10 +51,10 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="content-right-container">
-
                 </div>
 
             </div>
+            <EditProfilePopup isOpen={isPopupOpen} onClose={closePopup} />
         </div>
     );
 }

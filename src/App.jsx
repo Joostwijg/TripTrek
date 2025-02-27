@@ -3,6 +3,7 @@ import LoginAndRegister from "./pages/loginAndRegisterPage/LoginAndRegister.jsx"
 import ResetPassword from "./components/resetPassword/ResetPassword.jsx";
 import ForgotPasswordPage from "./pages/forgotPasswordPage/ForgotPasswordPage.jsx";
 import Home from "./pages/homepage/Homepage.jsx";
+import EditProfilePopup from "./components/editProfilePopup/EditProfilePopup.jsx";
 
 
 

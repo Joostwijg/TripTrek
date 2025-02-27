@@ -106,13 +106,18 @@
     margin-bottom: 0;
 }
 
-.edit-profile-button {
+.edit-profile-button{
     display: flex;
     flex-direction: row;
     justify-content: end;
     align-items: end;
     width: 100%;
     height: 100%;
+    cursor: pointer;
+}
+
+.edit-profile-button:hover{
+    color: var(--blue);
 }
 
 .edit-profile-button p {
