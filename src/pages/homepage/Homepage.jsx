@@ -1,5 +1,10 @@
 import Header from "../../components/header/Header.jsx";
 import './Homepage.css'
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
+
+
+
 
 const Home = () => {
     return (
@@ -27,6 +32,7 @@ const Home = () => {
                             </div>
                             <div className="edit-profile-button">
                                 <p>Edit profile</p>
+                                <i className="fa-solid fa-arrow-right"></i>
                             </div>
                         </div>
 

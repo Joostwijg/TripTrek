@@ -112,9 +112,17 @@
     justify-content: end;
     align-items: end;
     width: 100%;
-    background-color: var(--green);
+    height: 100%;
 }
 
+.edit-profile-button p {
+    margin-bottom: 0;
+}
+
+.fa-solid {
+    padding-left: 5px;
+    font-size: 18px;
+}
 
 
 
