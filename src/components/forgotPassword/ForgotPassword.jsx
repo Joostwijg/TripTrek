@@ -19,7 +19,7 @@ const ForgotPassword = (toggleSection) => {
 
     return (
         <div className="div-forgot-password">
-            <form onSubmit={handleSubmit}>
+            <form className="forgot-password-form" onSubmit={handleSubmit}>
                 <h4><label htmlFor="email">Enter your email:</label></h4>
                 <input
                     type="email"

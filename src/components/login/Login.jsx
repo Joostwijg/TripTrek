@@ -55,6 +55,7 @@ const Login = ({ toggleSection }) => {
                     type="button"
                     onClick={toggleSection}
                     variant="button-orange"
+
                 >Register
                 </Button>
             </form>
