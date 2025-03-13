@@ -1,10 +1,11 @@
 import "./EditProfilePopup.css"
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Button from "../button/Button.jsx";
 import {updateProfile} from "../../services/EditProfileService.jsx";
+import axios from "axios";
 
-const EditProfilePopup = ( {isOpen, onClose}) => {
+const EditProfilePopup = ( {isOpen, onClose, onProfileUpdate}) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         firstName: "",
@@ -20,6 +21,47 @@ const EditProfilePopup = ( {isOpen, onClose}) => {
         confirmPassword: "",
     })
 
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        if (!token) return;
+
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/users/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json',
+                        'content-type': 'application/json'
+
+                    }
+                });
+
+                console.log("User data fetched:", JSON.stringify(response.data, null, 2));
+
+
+                if (response.data) {
+                    setFormData((prevData) => ({
+                        ...prevData,
+                        firstName: response.data.firstName || "",
+                        lastName: response.data.lastName || "",
+                        email: response.data.email || "",
+                        phoneNumber: response.data.phoneNumber || "",
+                        address: response.data.address || "",
+                        city: response.data.city || "",
+                        state: response.data.state || "",
+                        zipCode: response.data.zipCode || "",
+                        country: response.data.country || "",
+                        }));
+                }
+            } catch (error) {
+                console.log("Something went wrong", error);
+            }
+        };
+
+        fetchUserData()
+
+    },[]);
+
     const [errors, setErrors] = useState({
         passwordMisMatch: false,
     });
@@ -29,6 +71,8 @@ const EditProfilePopup = ( {isOpen, onClose}) => {
     const handleClose = () => {
         navigate("/")
     }
+
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -54,8 +98,11 @@ const EditProfilePopup = ( {isOpen, onClose}) => {
             return;
         }
 
+        const token = localStorage.getItem("authToken");
+        if (!token) return;
+
         try {
-            const result = await updateProfile({
+            await updateProfile({
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 email: formData.email,
@@ -67,15 +114,29 @@ const EditProfilePopup = ( {isOpen, onClose}) => {
                 country: formData.country,
                 password: formData.password,
             });
-            console.log("Profile updated successfully", result)
-            onClose();
-        } catch (error) {
-            console.error("error updating profile", error);
-            alert("Error updating profile: " + error.message);
-        }
+            console.log("Profile updated successfully");
 
-        console.log("Form submitted", formData);
+            // ✅ Stuur de nieuwe profielgegevens terug naar Home.jsx
+            if (onProfileUpdate) {
+                onProfileUpdate({
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    registrationDate: formData.registrationDate,
+                    address: formData.address,
+                    city: formData.city,
+                    state: formData.state,
+                    zipCode: formData.zipCode,
+                    country: formData.country,
+                });
+            }
+
+            onClose(); // ✅ Sluit de popup na opslaan
+        } catch (error) {
+            console.log("Something went wrong", error);
+            alert("Something went wrong");
+        }
     }
+
 
     return (
         <div className="popup-overlay">
@@ -105,7 +166,7 @@ const EditProfilePopup = ( {isOpen, onClose}) => {
                                     <input
                                         type="text"
                                         name="firstName"
-                                        value={formData.firstName}
+                                        defaultValue={formData.firstName}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -136,7 +197,6 @@ const EditProfilePopup = ( {isOpen, onClose}) => {
                                         name="phoneNumber"
                                         value={formData.phoneNumber}
                                         onChange={handleChange}
-                                        pattern="[0-9]"
                                         inputMode="numeric"
                                         maxLength="20"
                                     />
@@ -153,83 +213,83 @@ const EditProfilePopup = ( {isOpen, onClose}) => {
                                     />
                                 </div>
                             </div>
-                                <div className="edit-profile-row">
-                                    <div className="edit-profile-input">
-                                        <label>City</label>
-                                        <input
-                                            type="text"
-                                            name="city"
-                                            value={formData.city}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                    <div className="edit-profile-input">
-                                        <label>State</label>
-                                        <input
-                                            type="text"
-                                            name="state"
-                                            value={formData.state}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
+                            <div className="edit-profile-row">
+                                <div className="edit-profile-input">
+                                    <label>City</label>
+                                    <input
+                                        type="text"
+                                        name="city"
+                                        value={formData.city}
+                                        onChange={handleChange}
+                                    />
                                 </div>
-                                <div className="edit-profile-row">
-                                    <div className="edit-profile-input">
-                                        <label>Zip-code/Postal code</label>
-                                        <input
-                                            type="text"
-                                            name="zipCode"
-                                            value={formData.zipCode}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                    <div className="edit-profile-input">
-                                        <label>Country</label>
-                                        <input
-                                            type="text"
-                                            name="country"
-                                            value={formData.country}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
+                                <div className="edit-profile-input">
+                                    <label>State</label>
+                                    <input
+                                        type="text"
+                                        name="state"
+                                        value={formData.state}
+                                        onChange={handleChange}
+                                    />
                                 </div>
-                                <br/><br/>
-                                <div className="edit-profile-row">
-                                    <div className="edit-profile-input">
-                                        <label>Password</label>
-                                        <input
-                                            type="password"
-                                            name="password"
-                                            autoComplete="new-password"
-                                            value={formData.password}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                    <div className="edit-profile-input">
-                                        <label>Confirm Password</label>
-                                        <input
-                                            type="password"
-                                            name="confirmPassword"
-                                            autoComplete="new-password"
-                                            value={formData.confirmPassword}
-                                            onChange={handleChange}
-                                        />
-                                        {errors.passwordMismatch && (
-                                            <p className="error-message">Passwords do not match!</p>
-                                        )}
-                                    </div>
+                            </div>
+                            <div className="edit-profile-row">
+                                <div className="edit-profile-input">
+                                    <label>Zip-code/Postal code</label>
+                                    <input
+                                        type="text"
+                                        name="zipCode"
+                                        value={formData.zipCode}
+                                        onChange={handleChange}
+                                    />
                                 </div>
-                                <br/>
-                                <div className="submit-edit-profile">
-                                    <Button
-                                        type="submit"
-                                        className="close-button"
-                                        variant="button-black"
-                                    >
-                                        Save Changes
-                                    </Button>
+                                <div className="edit-profile-input">
+                                    <label>Country</label>
+                                    <input
+                                        type="text"
+                                        name="country"
+                                        value={formData.country}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </div>
+                            <br/><br/>
+                            <div className="edit-profile-row">
+                                <div className="edit-profile-input">
+                                    <label>Password</label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        autoComplete="new-password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="edit-profile-input">
+                                    <label>Confirm Password</label>
+                                    <input
+                                        type="password"
+                                        name="confirmPassword"
+                                        autoComplete="new-password"
+                                        value={formData.confirmPassword}
+                                        onChange={handleChange}
+                                    />
+                                    {errors.passwordMismatch && (
+                                        <p className="error-message">Passwords do not match!</p>
+                                    )}
+                                </div>
+                            </div>
+                            <br/>
+                            <div className="submit-edit-profile">
+                                <Button
+                                    type="submit"
+                                    className="close-button"
+                                    variant="button-black"
+                                >
+                                    Save Changes
+                                </Button>
 
-                                </div>
+                            </div>
                         </form>
 
                     </div>
@@ -240,6 +300,6 @@ const EditProfilePopup = ( {isOpen, onClose}) => {
             </div>
 
         </div>
-    )
+    );
 }
-export default EditProfilePopup
+export default EditProfilePopup;

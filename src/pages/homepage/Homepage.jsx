@@ -1,22 +1,68 @@
 import Header from "../../components/header/Header.jsx";
-import './Homepage.css'
+import './Homepage.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import {useState} from "react";
+import { useEffect, useState } from "react";
 import EditProfilePopup from "../../components/editProfilePopup/EditProfilePopup.jsx";
-
-
-
-
+import axios from "axios";
 
 const Home = () => {
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [userData, setUserData] = useState({
+        firstName: "",
+        lastName: "",
+        registrationDate: "",
+    });
 
-    const [isPopupOpen, setisPopupOpen] = useState(false);
+    const openPopup = () => setIsPopupOpen(true);
+    const closePopup = () => setIsPopupOpen(false);
 
-    const openPopup = () => setisPopupOpen(true);
-    const closePopup = () => setisPopupOpen(false);
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            console.log("No token found, user is not logged in.");
+            return;
+        }
+
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/users/profile', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                console.log("Fetched user data:", response.data);
+
+                if (response.data) {
+                    setUserData({
+                        firstName: response.data.firstName || "",
+                        lastName: response.data.lastName || "",
+                        registrationDate: response.data.registrationDate || "",
+                        address: response.data.address || "",
+                        city: response.data.city || "",
+                        state: response.data.state || "",
+                        zipCode: response.data.zipCode || "",
+                        country: response.data.country || "",
+                    });
+                }
+            } catch (error) {
+                console.log("Something went wrong", error);
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
+    const handleProfileUpdate = (updatedData) => {
+        setUserData((prevData) => ({
+            ...prevData,
+            ...updatedData
+        }));
+    };
+
+
 
 
     return (
+
 
         <div className="main-container homepage">
             <Header />
@@ -27,7 +73,12 @@ const Home = () => {
                             <img src="/src/assets/test/Mask group.png" alt="" className='profile-picture'/>
                         </div>
                         <div className="container-personal-information">
-                            <h2>Dynamic Name</h2>
+                            <h2>
+                                {userData.firstName && userData.lastName
+                                    ? `${userData.firstName} ${userData.lastName}`
+                                    : "Naam niet beschikbaar"
+                                }
+                            </h2>
                             <p>Registration date</p>
                             <div className="follow-information">
                                 <div className="follow-information-following">
@@ -54,7 +105,7 @@ const Home = () => {
                 </div>
 
             </div>
-            <EditProfilePopup isOpen={isPopupOpen} onClose={closePopup} />
+            <EditProfilePopup isOpen={isPopupOpen} onClose={closePopup} onProfileUpdate={handleProfileUpdate} />
         </div>
     );
 }

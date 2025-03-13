@@ -9,16 +9,16 @@ const Login = ({ toggleSection }) => {
     const [message, setMessage] = useState(""); //
 
     const handleSubmit = async (e) => {
-        setEmail("");
-        setPassword("");
         e.preventDefault();
 
         try {
-            const loginDetails = { email, password };
-            const user = await loginUser(loginDetails);
-            setMessage(`Welcome back, ${user.email}!`);
+            const loginDetails = ( {email, password})
+            const response = await loginUser(loginDetails);
+
+            localStorage.setItem("authToken", response.token);
+            window.location.href = "/home";
         } catch (error) {
-            setMessage("Invalid credentials, please try again.");
+            setMessage("Error during login");
         }
     };
 

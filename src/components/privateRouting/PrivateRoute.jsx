@@ -9,6 +9,7 @@ const PrivateRoute = () => {
     }
 
     return <Outlet />;
+
 }
 
 
