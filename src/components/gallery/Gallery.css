@@ -1,0 +1,127 @@
+.slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 1300px;
+    height: 400px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.slider {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: 15px;
+    padding: 0 150px;
+    box-sizing: content-box;
+    flex-wrap: nowrap;
+}
+
+.slider-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    overflow: hidden;
+    transition: transform 0.3s, opacity 0.3s;
+    pointer-events: none;
+    border-radius: 15px;
+}
+
+.slider-image-container.visible {
+    width: 300px;
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    object-fit: cover;
+}
+
+.slider-image {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.slider-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--black);
+    border: none;
+    font-size: 64px;
+    cursor: pointer;
+    z-index: 2;
+    padding: 30px 25px 40px 25px;
+    color: var(--white);
+    font-weight: bold;
+}
+
+.slider-button.left {
+    left: 15px;
+
+}
+
+.slider-button.right {
+    right: 15px;
+}
+
+.slider-wrapper {
+    position: relative;
+    width: 1400px;
+    margin: 0 auto;
+}
+
+
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.lightbox-image {
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 10px;
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 78px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.lightbox-close {
+    top: 20px;
+    right: 40px;
+}
+
+.lightbox-prev {
+    left: 40px;
+    top: 50%;
+    transform: translateY(-60%);
+}
+
+.lightbox-next {
+    right: 40px;
+    top: 50%;
+    transform: translateY(-60%);
+}
+
+
