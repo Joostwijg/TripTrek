@@ -5,11 +5,7 @@ import ForgotPasswordPage from "./pages/forgotPasswordPage/ForgotPasswordPage.js
 import Home from "./pages/homepage/Homepage.jsx";
 import PrivateRoute from "./components/privateRouting/PrivateRoute.jsx";
 import AuthHandler from "./components/authHandler/Authhandler.jsx";
-
-
-
-
-
+import LocationPage from "./pages/locationPage/LocationPage.jsx";
 
 function App() {
     return (
@@ -22,6 +18,7 @@ function App() {
                 <Route element={<PrivateRoute/>}>
                     <Route path ="/home" element={<Home />} />
                 </Route>
+                <Route path="/location/:id" element={<LocationPage />} />
             </Routes>
         </Router>
     )

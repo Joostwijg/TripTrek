@@ -1,6 +1,7 @@
 import Button from "../button/Button.jsx";
 import "./Header.css"
 import React from "react";
+import logo from "/src/assets/branding/TrekTrip.svg"
 
 const header = () => {
     return (
@@ -8,7 +9,7 @@ const header = () => {
             <div className="header-menu">
                 <div className="logo-container">
                     <a href="/">
-                    <img src="src/assets/branding/TrekTrip.svg" className="logo"/>
+                    <img src={logo}  className="logo" title="Logo_Triptrek"/>
                     </a>
                 </div>
                 <div className="add-place">

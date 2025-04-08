@@ -1,0 +1,116 @@
+.main-container locationPage {
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    position: relative;
+
+}
+
+.upperSection, .middleSection, .bottomSection  {
+    display: flex;
+    flex-direction: row;
+    width: 1500px;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.upperSection-left, .upperSection-right, .bottomSection-left, .bottomSection-right, .content-middleSection  {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: var(--grey);
+    width: 50%;
+    min-height: 280px;
+    height: auto;
+    border-radius: 15px;
+    padding: 20px;
+    border-top: solid 15px;
+
+}
+
+.upperSection-left {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: end;
+    color: var(--white);
+    border-color: var(--black);
+    background-size: cover;
+    background-position: center center;
+}
+
+.upperSection-right {
+    border-color: var(--blue);
+}
+
+.upperSection-right .buttons {
+    display: flex;
+    gap: 40px;
+}
+
+.middleSection h2{
+    margin-bottom: 20px;
+
+}
+.middleSection p {
+    overflow: visible;
+    max-width: 1500px;
+    text-align: center;
+    width: 80%;
+}
+
+.gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.gallery-image {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.gallery-image:hover {
+    transform: scale(1.01);
+}
+
+
+.bottomSection-left {
+    border-color: var(--green);
+
+}
+
+.bottomSection-right {
+    border-color: var(--orange);
+}
+
+
+
+.content-middleSection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    height: 750px;
+    border-top: none;
+
+}
+
+.middleSection-title, .middleSection-information, .middleSection-gallery {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+

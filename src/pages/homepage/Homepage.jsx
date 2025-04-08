@@ -76,7 +76,7 @@ const Home = () => {
                             <h2>
                                 {userData.firstName && userData.lastName
                                     ? `${userData.firstName} ${userData.lastName}`
-                                    : "Naam niet beschikbaar"
+                                    : "Name not available"
                                 }
                             </h2>
                             <p>Registration date</p>
