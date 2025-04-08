@@ -52,10 +52,13 @@ const TopReviews = ({ reviews, onViewAll }) => {
                     );
                 })
             )}
+            {topReviews.length > 0 && (
             <button className="view-all-button" onClick={onViewAll}>
                 All reviews
                 <i className="fa-solid fa-arrow-right"></i>
             </button>
+                )
+            }
         </div>
     );
 }

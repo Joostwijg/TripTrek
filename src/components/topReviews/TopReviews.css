@@ -39,9 +39,13 @@
 .review-text.expanded {
     max-height: 500px;
 }
-.read-more-button {
+.view-all-button {
     all: unset;
     display: flex;
+    width: 100%;
     cursor: pointer;
-    margin-top: 5px;
+    font-weight: bold;
+    margin-top: 15px;
+    align-items: center;
+    justify-content: end;
 }
