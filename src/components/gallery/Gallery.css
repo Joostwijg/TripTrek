@@ -34,7 +34,6 @@
     opacity: 1;
     transform: scale(1);
     pointer-events: auto;
-    object-fit: cover;
 }
 
 .slider-image {
