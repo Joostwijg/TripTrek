@@ -42,6 +42,10 @@
     background-position: center center;
 }
 
+.upperSection-left h2 {
+    text-align: center;
+}
+
 .upperSection-right {
     border-color: var(--blue);
 }

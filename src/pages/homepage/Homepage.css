@@ -1,26 +1,28 @@
-.main-container{
+.main-container {
     height: 100%;
 }
 
 .homepage {
     background-image: url("../../assets/backgrounds/Login_Register_Background.png");
-    height: 100vh;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     overflow: hidden;
     position: relative;
     justify-content: start;
+    min-height: 100vh;
+    height: auto;
+
 }
 
 .content-container {
     display: flex;
     flex-direction: row;
     padding: 0;
-    height: 1100px;
+    height: auto;
     width: 1500px;
     margin-top: 30px;
-    gap: 30px
+    gap: 30px;
 }
 
 .content-left-container {
@@ -28,7 +30,6 @@
     flex-direction: column;
     width: 40%;
     height: 100%;
-    padding: 0;
     gap: 30px;
 }
 
@@ -36,14 +37,15 @@
     display: flex;
     flex-direction: column;
     width: 60%;
-    height: 100%;
-    padding: 0;
+    min-height: 600px;
+    padding: 20px;
     background-color: var(--grey);
     border-radius: 15px;
-
+    overflow-y: auto;
 }
 
-.content-left-upper-container, .content-right-upper-container {
+.content-left-upper-container,
+.content-right-upper-container {
     display: flex;
     flex-direction: row;
     background-color: var(--grey);
@@ -54,18 +56,16 @@
     border-width: 15px 0 0 0;
 }
 
-.content-right-upper-container{
-    border-color: var(--green)
+.content-right-upper-container {
+    border-color: var(--green);
 }
 
-.container-profile-picture{
+.container-profile-picture {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     margin-top: 40px;
     width: 35%;
 }
-
 
 .profile-picture {
     width: 150px;
@@ -83,10 +83,9 @@
     margin: 40px 0;
 }
 
-.container-personal-information p{
+.container-personal-information p {
     margin-bottom: 40px;
 }
-
 
 .follow-information {
     display: flex;
@@ -95,26 +94,28 @@
     gap: 80px;
 }
 
-.follow-information-following, .follow-information-followers{
+.follow-information-following,
+.follow-information-followers {
     width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.follow-information-following p, .follow-information-followers p{
+.follow-information-following p,
+.follow-information-followers p {
     color: var(--blue);
     font-size: 28px;
     font-weight: bold;
 }
 
-.follow-information-following h4, .follow-information-followers h4{
+.follow-information-following h4,
+.follow-information-followers h4 {
     margin-bottom: 0;
 }
 
-.edit-profile-button{
+.edit-profile-button {
     display: flex;
-    flex-direction: row;
     justify-content: end;
     align-items: end;
     width: 100%;
@@ -122,7 +123,7 @@
     cursor: pointer;
 }
 
-.edit-profile-button:hover{
+.edit-profile-button:hover {
     color: var(--blue);
 }
 
@@ -135,7 +136,54 @@
     font-size: 18px;
 }
 
+.text-button {
+    all: unset;
+    font-weight: bold;
+    color: var(--blue);
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-right: 10px;
+}
 
+.text-button.reject {
+    color: var(--orange);
+    margin-left: 10px;
+}
 
+.moderator-notifications {
+    padding: 30px;
+    overflow-y: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
 
+.moderator-notifications h3 {
+    color: var(--black);
+    font-size: 22px;
+    margin-bottom: 10px;
+}
 
+.moderator-notifications ul {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.moderator-notifications li {
+    background-color: var(--white);
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.moderator-notifications button {
+    align-self: flex-start;
+}

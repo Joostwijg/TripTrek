@@ -1,0 +1,113 @@
+.popup-overlay.add-location {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-container.add-location-border {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--grey);
+    border-radius: 15px;
+    border-left: 25px solid var(--green);
+    width: 100%;
+    max-width: 900px;
+    max-height: 700px;
+    overflow: hidden;
+}
+
+.popup-body.add-location-content {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+
+.popup-title h2 {
+    font-size: 26px;
+    color: var(--black);
+    font-weight: bold;
+}
+
+.popup-form-container.add-location-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group label {
+    font-weight: bold;
+    color: var(--black);
+}
+
+.input-group input,
+.input-group textarea {
+    padding: 10px;
+    border: 1px solid var(--black);
+    border-radius: 8px;
+    background-color: var(--transparent);
+    color: var(--black);
+    font-size: 14px;
+}
+
+.preview-gallery {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Preview main image */
+.main-image-preview {
+    margin-top: 10px;
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    border: 2px solid var(--darkgrey);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
+
+
+.preview-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.preview-gallery img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    border: 1px solid var(--black);
+    object-fit: cover;
+    transition: transform 0.2s ease;
+}
+
+.preview-gallery img:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}

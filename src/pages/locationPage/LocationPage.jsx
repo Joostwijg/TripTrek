@@ -11,17 +11,10 @@ import ReviewPopup from "../../components/reviewPopup/ReviewPopup.jsx";
 import AllReviewsPopup from "../../components/allReviewsPopup/AllReviewsPopup.jsx";
 
 const LocationPage = () => {
-    const { id } = useParams();
+    const { slug } = useParams();
 
-    const [locationData, setLocationData] = useState({
-        name: "",
-        description: "",
-        mainImage: "",
-        galleryImages: [],
-    });
-
+    const [locationData, setLocationData] = useState(null);
     const [reviews, setReviews] = useState([]);
-
     const [userData, setUserData] = useState({
         id: null,
         firstName: "",
@@ -56,54 +49,82 @@ const LocationPage = () => {
         fetchUser();
     }, []);
 
+    const fetchLocationData = async () => {
+        if (!slug) {
+            console.warn("❗ Geen slug gevonden in de URL.");
+            return;
+        }
+
+        console.log("🔎 Slug uit URL:", slug);
+
+        try {
+            const encodedSlug = encodeURIComponent(slug);
+            const response = await axios.get(`http://localhost:8080/api/locations/slug/${encodedSlug}`);
+            const location = response.data;
+
+            if (location.approved) {
+                setLocationData({
+                    id: location.id,
+                    name: location.name,
+                    description: location.description,
+                    mainImage: location.mainImage,
+                    galleryImages: location.galleryImages,
+                });
+            } else {
+                setLocationData(null);
+            }
+        } catch (error) {
+            console.log("❌ Fout bij ophalen locatie:", error);
+            setLocationData(null);
+        }
+    };
+
+    const fetchReviews = async (locationId) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/reviews/location/id/${locationId}`);
+            setReviews(response.data || []);
+        } catch (error) {
+            console.log("❌ Fout bij ophalen reviews:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchLocationData();
+    }, [slug]);
+
+    useEffect(() => {
+        if (locationData?.id) {
+            fetchReviews(locationData.id);
+        }
+    }, [locationData]);
+
     const handleSubmitReview = async (reviewData) => {
         try {
             const completeReview = {
                 ...reviewData,
                 user: { id: userData.id },
-                location: { id: Number(id) },
+                location: { id: locationData.id },
                 date: new Date().toISOString().split("T")[0]
             };
 
             await axios.post("http://localhost:8080/api/reviews", completeReview);
-
-            const response = await axios.get(`http://localhost:8080/api/reviews/location/${id}`);
-            setReviews(response.data || []);
+            await fetchReviews(locationData.id);
             setIsReviewPopupOpen(false);
         } catch (error) {
-            console.error("Error posting review", error);
+            console.error("❌ Error posting review", error);
         }
     };
 
-    useEffect(() => {
-        const fetchLocationData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/api/locations/${id}`);
-                if (response.data) {
-                    setLocationData({
-                        name: response.data.name || "",
-                        description: response.data.description || "",
-                        mainImage: response.data.mainImage || "",
-                        galleryImages: response.data.galleryImages || [],
-                    });
-                }
-            } catch (error) {
-                console.log("Fout bij ophalen locatie:", error);
-            }
-        };
-
-        const fetchReviews = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/api/reviews/location/${id}`);
-                setReviews(response.data || []);
-            } catch (error) {
-                console.log("Fout bij ophalen reviews:", error);
-            }
-        };
-
-        fetchLocationData();
-        fetchReviews();
-    }, [id]);
+    if (locationData === null) {
+        return (
+            <div className="main-container locationPage">
+                <Header />
+                <div className="not-approved-message">
+                    <h2>This location is not approved or does not exist.</h2>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="main-container locationPage">
@@ -114,19 +135,17 @@ const LocationPage = () => {
                     className="upperSection-left"
                     style={{
                         backgroundImage: locationData.mainImage
-                            ? `linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6)), url(${locationData.mainImage})`
+                            ? `linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6)), url(${encodeURI(locationData.mainImage)})`
                             : "none"
                     }}
                 >
                     <h2>{locationData.name}</h2>
                 </div>
-
                 <div className="upperSection-right">
                     <div className="buttons">
                         <Button type="submit" variant="button-black">
                             Mark as visited
                         </Button>
-
                         <Button
                             type="submit"
                             variant="button-orange"
@@ -160,7 +179,7 @@ const LocationPage = () => {
                 isOpen={isReviewPopupOpen}
                 onClose={() => setIsReviewPopupOpen(false)}
                 onSubmit={handleSubmitReview}
-                locationId={id}
+                locationId={locationData.id}
                 userId={userData.id}
             />
 

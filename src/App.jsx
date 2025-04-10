@@ -18,7 +18,7 @@ function App() {
                 <Route element={<PrivateRoute/>}>
                     <Route path ="/home" element={<Home />} />
                 </Route>
-                <Route path="/location/:id" element={<LocationPage />} />
+                <Route path="/location/:slug" element={<LocationPage />} />
             </Routes>
         </Router>
     )

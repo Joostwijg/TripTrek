@@ -7,14 +7,21 @@ import axios from "axios";
 
 const Home = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const [pendingLocations, setPendingLocations] = useState([]);
+    const [pendingReviews, setPendingReviews] = useState([]);
+
     const [userData, setUserData] = useState({
         firstName: "",
         lastName: "",
         registrationDate: "",
     });
 
+
+
     const openPopup = () => setIsPopupOpen(true);
     const closePopup = () => setIsPopupOpen(false);
+
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
@@ -41,6 +48,7 @@ const Home = () => {
                         state: response.data.state || "",
                         zipCode: response.data.zipCode || "",
                         country: response.data.country || "",
+                        role: response.data.role || "",
                     });
                 }
             } catch (error) {
@@ -50,6 +58,33 @@ const Home = () => {
 
         fetchUserData();
     }, []);
+
+    useEffect(() => {
+        if (userData.role === "moderator") {
+            axios.get("http://localhost:8080/api/locations/pending").then(res => setPendingLocations(res.data));
+            axios.get("http://localhost:8080/api/reviews/pending").then(res => setPendingReviews(res.data));
+        }
+    }, [userData.role])
+
+    const approveLocation = async (id) => {
+        await axios.patch(`http://localhost:8080/api/locations/approve/${id}`)
+        setPendingLocations(prev => prev.filter(loc => loc.id !== id));
+    }
+
+    const approveReview = async (id) => {
+        await axios.patch(`http://localhost:8080/api/reviews/approve/${id}`);
+        setPendingReviews(prev => prev.filter(rev => rev.id !== id));
+    };
+
+    const rejectLocation = async (id) => {
+        await axios.delete(`http://localhost:8080/api/locations/reject/${id}`);
+        setPendingLocations(prev => prev.filter(loc => loc.id !== id));
+    }
+
+    const rejectReview = async (id) => {
+        await axios.delete(`http://localhost:8080/api/reviews/reject/${id}`);
+        setPendingReviews(prev => prev.filter(rev => rev.id !== id));
+    }
 
     const handleProfileUpdate = (updatedData) => {
         setUserData((prevData) => ({
@@ -102,6 +137,51 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="content-right-container">
+                    {userData.role === "moderator" && (
+                        <div className="moderator-notifications">
+                            <h3>Pending locations</h3>
+                            {pendingLocations.length === 0 ? <p>No pending locations.</p> : (
+                                <ul>
+                                    {pendingLocations.map(loc => (
+                                        <li key={loc.id}>
+                                            <strong>{loc.name}</strong>
+                                            <br/>
+                                            {loc.description}
+                                            <div className="button-row">
+                                                <button className="text-button"
+                                                    onClick={() => approveLocation(loc.id)}>Approve
+                                                </button>
+                                                <button className="text-button reject"
+                                                    onClick={() => rejectLocation(loc.id)}>Reject
+                                                </button>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                            <h3>Pending reviews</h3>
+                            {pendingReviews.length === 0 ? <p>No reviews found.</p> : (
+                                <ul>
+                                    {pendingReviews.map(rev => (
+                                        <li key={rev.id}>
+                                            <h4>{rev.user?.firstName} {rev.user?.lastName}</h4>
+                                            <p><strong>Rating:</strong> {rev.rating} ⭐</p>
+                                            {rev.comment}
+                                            <div className="button-row">
+                                                <button className="text-button"
+                                                    onClick={() => approveReview(rev.id)}>Approve
+                                                </button>
+                                                <button className="text-button reject"
+                                                    onClick={() => rejectReview(rev.id)}>Reject
+                                                </button>
+                                            </div>
+
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    )}
                 </div>
 
             </div>

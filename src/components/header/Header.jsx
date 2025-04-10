@@ -1,9 +1,23 @@
 import Button from "../button/Button.jsx";
 import "./Header.css"
-import React from "react";
+import React, {useState} from "react";
 import logo from "/src/assets/branding/TrekTrip.svg"
+import axios from "axios";
+import AddLocationPopup from "../addLocationPopup/AddLocationPopup.jsx";
 
 const header = () => {
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const handleAddLocation = async (locationData) => {
+        try {
+            await axios.post("http://localhost:8080/api/locations", locationData);
+            setIsPopupOpen(false);
+        } catch (error) {
+            console.error("Error adding location", error);
+        }
+    };
+
+
     return (
         <div className="header">
             <div className="header-menu">
@@ -15,19 +29,19 @@ const header = () => {
                 <div className="add-place">
                     <Button
                         type="submit"
-                        variant="button-black"
-                    >Add place</Button>
-                </div>
-                <div className="add-randomizer">
-                    <Button
-                        type="submit"
                         variant="button-green"
-                    >Place randomizer</Button>
+                        onClick={() => setIsPopupOpen(true)}
+                    >Add location</Button>
                 </div>
                 <div className="search">
                     <p>Search...</p>
                 </div>
             </div>
+            <AddLocationPopup
+                isOpen={isPopupOpen}
+                onClose={() => setIsPopupOpen(false)}
+                onSubmit={handleAddLocation}
+            />
         </div>
     )
 }
