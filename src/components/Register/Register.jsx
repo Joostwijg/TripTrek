@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import {registerUser} from "../../services/userService.jsx";
+import {registerUser, loginUser} from "../../services/userService.jsx";
 import Button from "../button/Button.jsx";
+import { useNavigate } from "react-router-dom";
+
+
 
 
 
@@ -9,6 +12,8 @@ const Register = ({toggleSection}) => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
+    const navigate = useNavigate();
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,15 +25,21 @@ const Register = ({toggleSection}) => {
         }
 
         try {
-            const newUser = {email, password, confirmPassword};
+            const newUser = { email, password, confirmPassword };
+
             await registerUser(newUser);
-            setMessage("User registered successfully, Please log in.");
+
+            const loginResponse = await loginUser({ email, password });
+
+
+
+
+            navigate("/home");
         } catch (error) {
             setMessage(error);
         }
+    };
 
-
-    }
 
 
     return (

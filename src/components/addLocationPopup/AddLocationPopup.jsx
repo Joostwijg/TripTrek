@@ -1,5 +1,5 @@
 import './AddLocationPopup.css';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Button from "../button/Button.jsx";
 
@@ -8,20 +8,45 @@ const AddLocationPopup = ({ isOpen, onClose }) => {
     const [description, setDescription] = useState('');
     const [mainImage, setMainImage] = useState('');
     const [galleryImages, setGalleryImages] = useState([]);
+    const popupRef = useRef(null);
+
+    useEffect(() => {
+        if (isOpen) {
+            setName('');
+            setDescription('');
+            setMainImage('');
+            setGalleryImages([]);
+        }
+    }, [isOpen]);
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === "Escape") onClose();
+        };
+        const handleClickOutside = (e) => {
+            if (popupRef.current && !popupRef.current.contains(e.target)) onClose();
+        };
+        if (isOpen) {
+            document.addEventListener("keydown", handleKeyDown);
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen, onClose]);
+
+    if (!isOpen) return null;
 
     const handleMainImageUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
         const formData = new FormData();
         formData.append("file", file);
-        try {
-            const response = await axios.post("http://localhost:8080/api/locations/upload", formData, {
-                headers: { "Content-Type": "multipart/form-data" }
-            });
-            setMainImage(response.data);
-        } catch (err) {
-            console.log("Main image upload failed");
-        }
+        const response = await axios.post("http://localhost:8080/api/locations/upload", formData, {
+            headers: { "Content-Type": "multipart/form-data" }
+        });
+        setMainImage(response.data);
     };
 
     const handleGalleryUpload = async (e) => {
@@ -37,35 +62,20 @@ const AddLocationPopup = ({ isOpen, onClose }) => {
         setGalleryImages(urls);
     };
 
-    useEffect(() => {
-        if (isOpen) {
-            setName('');
-            setDescription('');
-            setMainImage('');
-            setGalleryImages([]);
-        }
-    }, [isOpen]);
-
     const handleSubmit = async () => {
         if (!name || !description || !mainImage) return;
-        try {
-            await axios.post("http://localhost:8080/api/locations", {
-                name,
-                description,
-                mainImage,
-                galleryImages
-            });
-            onClose();
-        } catch (err) {
-            console.error("Add location failed", err);
-        }
+        await axios.post("http://localhost:8080/api/locations", {
+            name,
+            description,
+            mainImage,
+            galleryImages
+        });
+        onClose();
     };
-
-    if (!isOpen) return null;
 
     return (
         <div className="popup-overlay add-location">
-            <div className="popup-container add-location-border">
+            <div className="popup-container add-location-border" ref={popupRef}>
                 <div className="popup-body add-location-content">
                     <div className="popup-header">
                         <div className="popup-title">
@@ -84,14 +94,14 @@ const AddLocationPopup = ({ isOpen, onClose }) => {
                         <div className="input-group">
                             <label>Main Image</label>
                             <input type="file" onChange={handleMainImageUpload} />
-                            {mainImage && <img src={mainImage} alt="Main preview" className="main-image-preview"/>}
+                            {mainImage && <img src={mainImage} alt="Main preview" className="main-image-preview" />}
                         </div>
                         <div className="input-group">
                             <label>Gallery Images</label>
                             <input type="file" multiple onChange={handleGalleryUpload} />
                             <div className="preview-gallery">
                                 {galleryImages.map((img, i) => (
-                                    <img key={i} src={img} alt={'Gallery ${i}'}/>
+                                    <img key={i} src={img} alt={`Gallery ${i}`} />
                                 ))}
                             </div>
                         </div>

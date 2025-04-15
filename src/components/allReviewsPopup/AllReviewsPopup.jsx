@@ -1,10 +1,11 @@
 import "./AllReviewsPopup.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const AllReviewsPopup = ({ isOpen, onClose, reviews }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [sortOrder, setSortOrder] = useState("desc");
     const REVIEWS_PER_PAGE = 4;
+    const popupRef = useRef(null);
 
     useEffect(() => {
         if (isOpen) {
@@ -12,6 +13,36 @@ const AllReviewsPopup = ({ isOpen, onClose, reviews }) => {
             setSortOrder("desc");
         }
     }, [isOpen]);
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === "Escape") onClose();
+        };
+
+        if (isOpen) {
+            document.addEventListener("keydown", handleKeyDown);
+        }
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [isOpen, onClose]);
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (popupRef.current && !popupRef.current.contains(e.target)) {
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen, onClose]);
 
     if (!isOpen) return null;
 
@@ -23,17 +54,9 @@ const AllReviewsPopup = ({ isOpen, onClose, reviews }) => {
     const startIdx = (currentPage - 1) * REVIEWS_PER_PAGE;
     const currentReviews = sortedReviews.slice(startIdx, startIdx + REVIEWS_PER_PAGE);
 
-    const handleNext = () => {
-        if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
-    };
-
-    const handlePrev = () => {
-        if (currentPage > 1) setCurrentPage(prev => prev - 1);
-    };
-
     return (
         <div className="popup-overlay all-reviews">
-            <div className="popup-container all-reviews-border">
+            <div className="popup-container all-reviews-border" ref={popupRef}>
                 <div className="popup-body all-reviews-content">
                     <div className="popup-header">
                         <div className="popup-title">
@@ -63,11 +86,11 @@ const AllReviewsPopup = ({ isOpen, onClose, reviews }) => {
                     </div>
 
                     <div className="pagination-controls">
-                        <button className="text-button" onClick={handlePrev} disabled={currentPage === 1}>
+                        <button className="text-button" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>
                             Previous
                         </button>
                         <span>Page {currentPage} of {totalPages}</span>
-                        <button className="text-button" onClick={handleNext} disabled={currentPage === totalPages}>
+                        <button className="text-button" onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}>
                             Next
                         </button>
                     </div>

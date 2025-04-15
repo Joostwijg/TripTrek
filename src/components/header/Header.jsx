@@ -4,9 +4,19 @@ import React, {useState} from "react";
 import logo from "/src/assets/branding/TrekTrip.svg"
 import axios from "axios";
 import AddLocationPopup from "../addLocationPopup/AddLocationPopup.jsx";
+import { useNavigate } from "react-router-dom";
 
-const header = () => {
+
+
+const Header = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("authToken");
+        navigate("/");
+    }
 
     const handleAddLocation = async (locationData) => {
         try {
@@ -33,8 +43,14 @@ const header = () => {
                         onClick={() => setIsPopupOpen(true)}
                     >Add location</Button>
                 </div>
-                <div className="search">
-                    <p>Search...</p>
+                <div className="logout">
+                    <Button
+                        type="button"
+                        variant="button-orange"
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </Button>
                 </div>
             </div>
             <AddLocationPopup
@@ -45,4 +61,4 @@ const header = () => {
         </div>
     )
 }
-export default header
+export default Header

@@ -1,5 +1,5 @@
 import Header from "../../components/header/Header.jsx";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./LocationPage.css";
@@ -12,6 +12,7 @@ import AllReviewsPopup from "../../components/allReviewsPopup/AllReviewsPopup.js
 
 const LocationPage = () => {
     const { slug } = useParams();
+    const { setBackgroundImage } = useOutletContext();
 
     const [locationData, setLocationData] = useState(null);
     const [reviews, setReviews] = useState([]);
@@ -23,6 +24,13 @@ const LocationPage = () => {
 
     const [isReviewPopupOpen, setIsReviewPopupOpen] = useState(false);
     const [isAllReviewsOpen, setIsAllReviewsOpen] = useState(false);
+
+    useEffect(() => {
+        if (locationData?.mainImage) {
+            console.log("🖼️ BackgroundImage wordt gezet:", locationData.mainImage);
+            setBackgroundImage(locationData.mainImage);
+        }
+    }, [locationData]);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -127,9 +135,7 @@ const LocationPage = () => {
     }
 
     return (
-        <div className="main-container locationPage">
-            <Header />
-
+        <div>
             <div className="upperSection">
                 <div
                     className="upperSection-left"
