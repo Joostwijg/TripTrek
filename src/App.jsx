@@ -6,6 +6,7 @@ import Home from "./pages/homepage/Homepage.jsx";
 import PrivateRoute from "./components/privateRouting/PrivateRoute.jsx";
 import AuthHandler from "./components/authHandler/Authhandler.jsx";
 import LocationPage from "./pages/locationPage/LocationPage.jsx";
+import PagesWithHeader from "./components/pagesWithHeader/PagesWithHeader.jsx";
 
 function App() {
     return (
@@ -15,10 +16,14 @@ function App() {
                 <Route path="/" element={<LoginAndRegister />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
-                <Route element={<PrivateRoute/>}>
-                    <Route path ="/home" element={<Home />} />
+
+
+                <Route element={<PrivateRoute />}>
+                    <Route element={<PagesWithHeader />}>
+                        <Route path="/home" element={<Home />} />
+                        <Route path="/location/:slug" element={<LocationPage />} />
+                    </Route>
                 </Route>
-                <Route path="/location/:slug" element={<LocationPage />} />
             </Routes>
         </Router>
     )

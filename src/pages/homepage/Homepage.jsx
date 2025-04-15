@@ -4,12 +4,15 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useEffect, useState } from "react";
 import EditProfilePopup from "../../components/editProfilePopup/EditProfilePopup.jsx";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const [pendingLocations, setPendingLocations] = useState([]);
     const [pendingReviews, setPendingReviews] = useState([]);
+    const [recentLocations, setRecentLocations] = useState([]);
+    const navigate = useNavigate();
 
     const [userData, setUserData] = useState({
         firstName: "",
@@ -66,6 +69,24 @@ const Home = () => {
         }
     }, [userData.role])
 
+    useEffect(() => {
+        const fetchRecentLocations = async () => {
+            try {
+                const response = await axios.get("http://localhost:8080/api/locations");
+                const sorted = response.data
+                    .filter(loc => loc.approved)
+                    .sort((a, b) => b.id - a.id) // meest recente bovenaan
+                    .slice(0, 5);
+                setRecentLocations(sorted);
+            } catch (error) {
+                console.error("Fout bij ophalen recente locaties", error);
+            }
+        };
+
+        fetchRecentLocations();
+    }, []);
+
+
     const approveLocation = async (id) => {
         await axios.patch(`http://localhost:8080/api/locations/approve/${id}`)
         setPendingLocations(prev => prev.filter(loc => loc.id !== id));
@@ -99,8 +120,7 @@ const Home = () => {
     return (
 
 
-        <div className="main-container homepage">
-            <Header />
+        <div >
             <div className="content-container">
                 <div className="content-left-container">
                     <div className="content-left-upper-container">
@@ -111,10 +131,9 @@ const Home = () => {
                             <h2>
                                 {userData.firstName && userData.lastName
                                     ? `${userData.firstName} ${userData.lastName}`
-                                    : "Name not available"
-                                }
+                                    : ''}
                             </h2>
-                            <p>Registration date</p>
+                            <p>Registration date: {userData.registrationDate?.split("T")[0]}</p>
                             <div className="follow-information">
                                 <div className="follow-information-following">
                                     <h4>Following</h4>
@@ -132,9 +151,24 @@ const Home = () => {
                         </div>
 
                     </div>
-                    <div className="content-right-upper-container">
-
+                    <div className="content-left-under-container">
+                        <h3>Recently Added Locations</h3>
+                        <ul className="recent-locations">
+                            {recentLocations.map(loc => (
+                                <li key={loc.id}>
+                                    <strong>{loc.name}</strong>
+                                    <br/>
+                                    <button
+                                        className="text-button"
+                                        onClick={() => window.location.href = `/location/${loc.slug}`}
+                                    >
+                                        More info →
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
+
                 </div>
                 <div className="content-right-container">
                     {userData.role === "moderator" && (
@@ -144,6 +178,7 @@ const Home = () => {
                                 <ul>
                                     {pendingLocations.map(loc => (
                                         <li key={loc.id}>
+                                        <p></p>
                                             <strong>{loc.name}</strong>
                                             <br/>
                                             {loc.description}
@@ -164,6 +199,7 @@ const Home = () => {
                                 <ul>
                                     {pendingReviews.map(rev => (
                                         <li key={rev.id}>
+                                            <p><em>{rev.location?.name || "Unknown"}</em></p>
                                             <h4>{rev.user?.firstName} {rev.user?.lastName}</h4>
                                             <p><strong>Rating:</strong> {rev.rating} ⭐</p>
                                             {rev.comment}
