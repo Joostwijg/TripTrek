@@ -2,6 +2,7 @@ import './AddLocationPopup.css';
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Button from "../button/Button.jsx";
+import useBodyScrollLock from "../../hooks/useBodyScrollLock.jsx";
 
 const AddLocationPopup = ({ isOpen, onClose }) => {
     const [name, setName] = useState('');
@@ -9,6 +10,8 @@ const AddLocationPopup = ({ isOpen, onClose }) => {
     const [mainImage, setMainImage] = useState('');
     const [galleryImages, setGalleryImages] = useState([]);
     const popupRef = useRef(null);
+
+    useBodyScrollLock(isOpen);
 
     useEffect(() => {
         if (isOpen) {

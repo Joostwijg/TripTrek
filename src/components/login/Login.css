@@ -30,3 +30,64 @@
 }
 
 
+/* ================= RESPONSIVE: .div-login & .smallText ================= */
+
+/* Tablets */
+@media screen and (max-width: 992px) {
+    .div-login {
+        width: 100%;
+    }
+
+    .div-login h4 {
+        font-size: 16px;
+    }
+
+    .div-login p {
+        font-size: 14px;
+    }
+
+    .smallText {
+        font-size: 11px;
+    }
+}
+
+/* Mobiele telefoons */
+@media screen and (max-width: 576px) {
+    .div-login {
+        padding: 0 10px;
+    }
+
+    .div-login h4 {
+        font-size: 15px;
+    }
+
+    .div-login p {
+        font-size: 13px;
+    }
+
+    .smallText {
+        font-size: 10px;
+        width: 100%;
+        text-align: left;
+        margin-top: 5px;
+    }
+}
+
+/* Extra kleine telefoons */
+@media screen and (max-width: 375px) {
+    .div-login {
+        padding: 0 8px;
+    }
+
+    .div-login h4 {
+        font-size: 14px;
+    }
+
+    .div-login p {
+        font-size: 12px;
+    }
+
+    .smallText {
+        font-size: 9.5px;
+    }
+}

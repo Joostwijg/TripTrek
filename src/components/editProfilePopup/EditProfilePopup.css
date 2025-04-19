@@ -9,6 +9,8 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    padding: 15px;
+    box-sizing: border-box;
 }
 
 .popup-container {
@@ -19,17 +21,24 @@
     border: solid var(--blue);
     border-width: 0 0 0 25px;
     width: 1100px;
+    max-width: 100%;
     height: 900px;
+    max-height: 90vh;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .popup-menu, .popup-body {
     padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .popup-menu {
     border: solid var(--darkgrey);
-    border-width: 0 2px 0 0;
+    border-width: 0 1px 0 0;
     height: 100%;
+    width: 35%;
 }
 
 .popup-body {
@@ -38,6 +47,7 @@
     margin-left: 40px;
     height: 100%;
     width: 60%;
+    padding-bottom: 40px;
 }
 
 .popup-header {
@@ -46,7 +56,6 @@
     display: flex;
     flex-direction: row;
     gap: 50px;
-
 }
 
 .popup-title {
@@ -58,16 +67,36 @@
     justify-content: center;
 }
 
-
-
-.popup-profile-picture h2{
+.popup-profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px dashed var(--blue);
     display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: center;
-    width: 200px;
-    height: 200px;
-    background-color: var(--blue);
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #e0e0e0;
+    transition: border-color 0.3s ease;
+}
+
+.popup-profile-picture:hover {
+    border-color: var(--darkgrey);
+}
+
+.profile-picture-placeholder {
+    color: var(--blue);
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.profile-picture-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 50%;
 }
 
@@ -105,7 +134,6 @@
     padding: 2px;
 }
 
-
 .edit-profile-row {
     display: flex;
     flex-direction: row;
@@ -119,3 +147,155 @@
     width: 280px;
 }
 
+/* Media query voor laptops en kleinere desktops */
+@media screen and (max-width: 1200px) {
+    .popup-container {
+        width: 90%;
+        height: auto;
+        min-height: 700px;
+    }
+
+    .popup-body {
+        margin-left: 20px;
+    }
+
+    .popup-profile-picture {
+        width: 150px;
+        height: 150px;
+    }
+
+    .edit-profile-row {
+        gap: 15px;
+    }
+
+    .edit-profile-row input {
+        width: 220px;
+    }
+}
+
+/* Media query voor tablets */
+@media screen and (max-width: 992px) {
+    .popup-overlay {
+        padding: 20px;
+    }
+
+    .popup-container {
+        width: 100%;
+        height: auto;
+        min-height: 600px;
+    }
+
+    .popup-header {
+        gap: 20px;
+    }
+
+    .popup-profile-picture {
+        width: 120px;
+        height: 120px;
+    }
+
+    .edit-profile-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .edit-profile-row input {
+        width: 100%;
+    }
+}
+
+/* Media query voor kleinere tablets en grotere telefoons */
+@media screen and (max-width: 768px) {
+    .popup-overlay {
+        align-items: flex-start;
+        padding: 15px;
+        overflow-y: auto;
+    }
+
+    .popup-container {
+        flex-direction: column;
+        width: 100%;
+        max-height: none;
+        margin: 15px 0;
+        border-width: 25px 0 0 0;
+    }
+
+    .popup-menu {
+        width: 100%;
+        height: auto;
+        border-width: 0 0 1px 0;
+        padding: 15px;
+    }
+
+    .popup-body {
+        width: 100%;
+        margin-left: 0;
+        padding: 15px;
+        padding-bottom: 60px;
+    }
+
+    .popup-header {
+        flex-direction: column;
+        gap: 15px;
+        height: auto;
+        align-items: center;
+    }
+
+    .popup-title {
+        width: 100%;
+        text-align: center;
+    }
+
+    .popup-profile-picture {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* Media query voor mobiele telefoons */
+@media screen and (max-width: 576px) {
+    .popup-overlay {
+        padding: 10px;
+    }
+
+    .popup-container {
+        width: 100%;
+        border-radius: 10px;
+        border-width: 15px 0 0 0;
+    }
+
+    .popup-menu, .popup-body {
+        padding: 15px 10px;
+    }
+
+    .popup-profile-picture {
+        width: 100px;
+        height: 100px;
+    }
+
+    .edit-profile-input input {
+        height: 35px;
+    }
+}
+
+/* Media query voor kleine mobiele telefoons */
+@media screen and (max-width: 375px) {
+    .popup-overlay {
+        padding: 5px;
+    }
+
+    .popup-container {
+        margin: 10px 0;
+        border-radius: 8px;
+        border-width: 10px 0 0 0;
+    }
+
+    .popup-menu, .popup-body {
+        padding: 10px;
+    }
+
+    .popup-profile-picture {
+        width: 80px;
+        height: 80px;
+    }
+}

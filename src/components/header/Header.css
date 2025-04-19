@@ -1,5 +1,10 @@
+/* ========== DESKTOP-STYLING (aangepast voor volledige breedte met marges) ========== */
 .header {
-    width: 1500px;
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
 }
 
 .header-menu {
@@ -39,12 +44,111 @@
     color: var(--darkgrey);
 }
 
-.add-place{
+.add-place {
     width: 60%;
     display: flex;
     justify-content: start;
 }
 
-.logo-container{
+.logo-container {
     width: 5%;
+}
+
+/* ========== RESPONSIVE MEDIA QUERIES ========== */
+
+/* Grotere tablets en kleinere desktops */
+@media screen and (max-width: 1200px) {
+    .header {
+        width: 100%;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+    .header-menu {
+        gap: 60px;
+    }
+
+    .add-place {
+        justify-content: center;
+        gap: 20px;
+    }
+}
+
+/* Tablets: logo boven, knoppen eronder */
+@media screen and (max-width: 992px) {
+    .header {
+        width: 100%;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+    .header-menu {
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .logo-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .add-place {
+        width: 100%;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+}
+
+/* Kleine tablets en grotere telefoons */
+@media screen and (max-width: 768px) {
+    .header-menu {
+        gap: 20px;
+    }
+
+    .add-place {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+    }
+}
+
+/* Smartphones */
+@media screen and (max-width: 576px) {
+    .header {
+        padding: 0 10px;
+    }
+
+    .header-menu {
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .add-place {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .add-place button {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+/* Kleine telefoons */
+@media screen and (max-width: 375px) {
+    .header {
+        padding: 0 8px;
+    }
+
+    .header-menu {
+        gap: 10px;
+    }
+
+    .add-place {
+        gap: 8px;
+    }
 }

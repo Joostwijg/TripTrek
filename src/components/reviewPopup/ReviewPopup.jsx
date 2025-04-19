@@ -1,11 +1,14 @@
 import './ReviewPopup.css';
 import { useEffect, useRef, useState } from 'react';
 import Button from "../button/Button.jsx";
+import useBodyScrollLock from "../../hooks/useBodyScrollLock.jsx";
 
 const ReviewPopup = ({ isOpen, onClose, onSubmit, locationId, userId }) => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const popupRef = useRef(null);
+
+    useBodyScrollLock(isOpen);
 
     useEffect(() => {
         if (isOpen) {

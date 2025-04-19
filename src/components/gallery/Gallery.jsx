@@ -1,13 +1,31 @@
 import "./Gallery.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Gallery = ({ images }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [lightboxIndex, setLightboxIndex] = useState(0);
+    const [visibleImagesCount, setVisibleImagesCount] = useState(5);
 
-    const visibleImagesCount = 5;
     const hasImages = images && images.length > 0;
+
+    // Dynamisch aantal zichtbare afbeeldingen op basis van schermgrootte
+    useEffect(() => {
+        const updateVisibleCount = () => {
+            const width = window.innerWidth;
+            if (width <= 900) {
+                setVisibleImagesCount(1);
+            } else if (width <= 1300) {
+                setVisibleImagesCount(3);
+            } else {
+                setVisibleImagesCount(5);
+            }
+        };
+
+        updateVisibleCount(); // Initial run
+        window.addEventListener("resize", updateVisibleCount);
+        return () => window.removeEventListener("resize", updateVisibleCount);
+    }, []);
 
     const prevSlide = () => {
         if (!hasImages) return;
@@ -61,7 +79,7 @@ const Gallery = ({ images }) => {
                     <div className="slider">
                         {getVisibleImages().map(({ image, imageIndex }, renderIndex) => (
                             <div
-                                key={renderIndex} // renderIndex is altijd uniek per view
+                                key={renderIndex}
                                 className="slider-image-container visible"
                                 onClick={() => openLightbox(imageIndex)}
                             >

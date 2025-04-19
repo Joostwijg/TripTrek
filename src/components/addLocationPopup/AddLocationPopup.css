@@ -9,6 +9,9 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .popup-container.add-location-border {
@@ -19,8 +22,13 @@
     border-left: 25px solid var(--green);
     width: 100%;
     max-width: 900px;
-    max-height: 700px;
+    max-height: 90vh;
     overflow: hidden;
+    box-sizing: border-box;
+    margin: 20px;
+    flex-shrink: 1;
+    flex-grow: 0;
+    min-width: 0;
 }
 
 .popup-body.add-location-content {
@@ -28,27 +36,32 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    flex: 1;
     overflow-y: auto;
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
 }
-
 
 .popup-title h2 {
     font-size: 26px;
     color: var(--black);
     font-weight: bold;
+    overflow-wrap: break-word;
 }
 
 .popup-form-container.add-location-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
 }
 
 .input-group label {
@@ -64,32 +77,9 @@
     background-color: var(--transparent);
     color: var(--black);
     font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
 }
-
-.preview-gallery {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.popup-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-/* Preview main image */
-.main-image-preview {
-    margin-top: 10px;
-    width: 200px;
-    height: 200px;
-    border-radius: 12px;
-    border: 2px solid var(--darkgrey);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    object-fit: cover;
-}
-
 
 .preview-gallery {
     display: flex;
@@ -110,4 +100,139 @@
 .preview-gallery img:hover {
     transform: scale(1.05);
     cursor: pointer;
+}
+
+.main-image-preview {
+    margin-top: 10px;
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    border: 2px solid var(--darkgrey);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+/* ============= MEDIA QUERIES ============= */
+
+@media screen and (max-width: 1200px) {
+    .popup-container.add-location-border {
+        flex-direction: column;
+        max-width: 90%;
+        max-height: 90vh;
+        margin: 20px;
+        border-left: none;
+        border-top: 25px solid var(--green);
+    }
+
+    .popup-body.add-location-content {
+        padding: 25px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .popup-overlay.add-location {
+        align-items: flex-start;
+        overflow-y: auto;
+        padding: 20px;
+    }
+
+    .popup-container.add-location-border {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        max-height: none;
+        border-left: none;
+        border-top: 25px solid var(--green);
+        border-radius: 12px;
+        margin: 0 auto;
+        box-sizing: border-box;
+        flex-direction: column;
+    }
+
+    .popup-body.add-location-content {
+        padding: 20px;
+        max-height: 100%;
+        overflow-y: auto;
+    }
+
+    .main-image-preview {
+        width: 150px;
+        height: 150px;
+    }
+
+    .preview-gallery img {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .popup-overlay.add-location {
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .popup-container.add-location-border {
+        border-radius: 10px;
+        padding: 10px;
+        margin: 10px;
+        border-top: 15px solid var(--green);
+        width: 100%;
+    }
+
+    .popup-body.add-location-content {
+        padding: 15px;
+    }
+
+    .popup-title h2 {
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .main-image-preview {
+        width: 120px;
+        height: 120px;
+    }
+
+    .preview-gallery img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .popup-buttons {
+        flex-direction: column-reverse;
+        align-items: stretch;
+
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .popup-container.add-location-border {
+        padding: 5px;
+        border-radius: 8px;
+        border-top: 10px solid var(--green);
+        margin: 5px;
+    }
+
+    .popup-body.add-location-content {
+        padding: 10px;
+    }
+
+    .main-image-preview {
+        width: 100px;
+        height: 100px;
+    }
+
+    .preview-gallery img {
+        width: 60px;
+        height: 60px;
+    }
 }
