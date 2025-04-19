@@ -2,44 +2,89 @@ import "./EditProfilePopup.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Button from "../button/Button.jsx";
-import { updateProfile } from "../../services/EditProfileService.jsx";
 import axios from "axios";
 
 const EditProfilePopup = ({ isOpen, onClose, onProfileUpdate }) => {
     const navigate = useNavigate();
     const popupRef = useRef(null);
+
     const [formData, setFormData] = useState({
         firstName: "", lastName: "", email: "", phoneNumber: "",
         address: "", city: "", state: "", zipCode: "", country: "",
-        password: "", confirmPassword: "",
+        password: "", confirmPassword: ""
     });
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add("no-scroll");
+        } else {
+            document.body.classList.remove("no-scroll");
+        }
+        return () => {
+            document.body.classList.remove("no-scroll");
+        };
+    }, [isOpen]);
 
     useEffect(() => {
         const token = localStorage.getItem("authToken");
         if (!token) return;
 
         const fetchUserData = async () => {
-            const response = await axios.get("http://localhost:8080/api/users/profile", {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (response.data) {
-                setFormData((prevData) => ({ ...prevData, ...response.data }));
+            try {
+                const response = await axios.get("http://localhost:8080/api/users/profile", {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                if (response.data) {
+                    const {
+                        firstName,
+                        lastName,
+                        email,
+                        phoneNumber,
+                        address,
+                        city,
+                        state,
+                        zipCode,
+                        country
+                    } = response.data;
+
+                    setFormData({
+                        firstName,
+                        lastName,
+                        email,
+                        phoneNumber,
+                        address,
+                        city,
+                        state,
+                        zipCode,
+                        country,
+                        password: "",
+                        confirmPassword: ""
+                    });
+                }
+            } catch (error) {
+                console.error("Failed to fetch user data:", error);
             }
         };
+
         fetchUserData();
-    }, []);
+    }, [isOpen]);
 
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.key === "Escape") onClose();
         };
         const handleClickOutside = (e) => {
-            if (popupRef.current && !popupRef.current.contains(e.target)) onClose();
+            if (popupRef.current && !popupRef.current.contains(e.target)) {
+                onClose();
+            }
         };
+
         if (isOpen) {
             document.addEventListener("keydown", handleKeyDown);
             document.addEventListener("mousedown", handleClickOutside);
         }
+
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
             document.removeEventListener("mousedown", handleClickOutside);
@@ -55,11 +100,28 @@ const EditProfilePopup = ({ isOpen, onClose, onProfileUpdate }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (formData.password !== formData.confirmPassword) return;
 
-        await updateProfile(formData);
-        onProfileUpdate?.(formData);
-        onClose();
+        if (formData.password !== formData.confirmPassword) {
+            alert("Passwords are not matching.");
+            return;
+        }
+
+        const token = localStorage.getItem("authToken");
+
+        try {
+            await axios.put("http://localhost:8080/api/users/profile/edit", formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            onProfileUpdate?.(formData);
+            onClose();
+        } catch (error) {
+            console.error("Error updating profile:", error);
+            alert("Bijwerken mislukt. Probeer het opnieuw.");
+        }
     };
 
     return (
@@ -71,7 +133,9 @@ const EditProfilePopup = ({ isOpen, onClose, onProfileUpdate }) => {
                 <div className="popup-body">
                     <div className="popup-header">
                         <div className="popup-title"><h2>Edit Profile</h2></div>
-                        <div className="popup-profile-picture"><h2>pic</h2></div>
+                        <div className="popup-profile-picture">
+                            <div className="profile-picture-placeholder">Upload your profile picture</div>
+                        </div>
                     </div>
                     <div className="popup-form-container">
                         <form onSubmit={handleSubmit}>

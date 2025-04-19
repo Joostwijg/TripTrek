@@ -6,7 +6,8 @@ Table of Contents:
     1. Global Styles
     2. Global Typography
     3. Global Colors
-
+    4. Global Form CSS
+    5. Responsive Styles
 ////////////////////////////////////////////////////////////////////////*/
 
 /*////////////////////////
@@ -20,36 +21,44 @@ Table of Contents:
     padding: 0;
 }
 
-.main-container{
+body.no-scroll {
+    overflow: hidden !important;
+    height: 100vh;
+}
+
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.main-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 15px;
-
-
+    width: 100%;
+    max-width: 100%;
 }
 
 * {
     font-family: 'Montserrat', sans-serif;
 }
 
-
-
-/* Global Setup */
-
-
 /*////////////////////////
     2. Global Typography
 ////////////////////////*/
 
-h1, h2, h3, h4, h5, h6, p, accent{
+h1, h2, h3, h4, h5, h6, p, accent {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.5em;
 }
 
 h1 {
-    font-size: 48px
+    font-size: 48px;
 }
 
 h2 {
@@ -67,6 +76,7 @@ h4 {
 p {
     font-weight: 400;
     font-size: 16px;
+    line-height: 1.5;
 }
 
 accent {
@@ -82,7 +92,7 @@ quote {
 }
 
 /*////////////////////////
-    2. Global Colors
+    3. Global Colors
 ////////////////////////*/
 
 :root {
@@ -96,9 +106,8 @@ quote {
     --white: #FFFFFF;
 }
 
-
 /*///////////////////////
-    3. Global Form CSS
+    4. Global Form CSS
 ////////////////////// */
 
 form {
@@ -106,12 +115,14 @@ form {
     flex-direction: column;
     width: 100%;
 }
+
 form label {
     color: white;
     width: 100%;
+    margin-bottom: 5px;
 }
 
-form input{
+form input {
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     color: white;
@@ -124,8 +135,146 @@ form input{
     height: 60px;
 }
 
-
-
-form input:focus{
+form input:focus {
     outline: none;
+}
+
+/*////////////////////////
+    5. Responsive Styles
+////////////////////////*/
+
+/* Media query voor tablets */
+@media screen and (max-width: 1024px) {
+    h1 {
+        font-size: 42px;
+    }
+
+    h2 {
+        font-size: 32px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+
+    quote {
+        font-size: 72px;
+    }
+
+    form input {
+        height: 55px;
+        padding: 12px;
+    }
+}
+
+/* Media query voor kleine tablets en grote smartphones */
+@media screen and (max-width: 768px) {
+    .main-container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    h4 {
+        font-size: 18px;
+    }
+
+    p, accent {
+        font-size: 15px;
+    }
+
+    quote {
+        font-size: 56px;
+    }
+
+    form input {
+        height: 50px;
+        padding: 10px;
+        font-size: 15px;
+    }
+}
+
+/* Media query voor smartphones */
+@media screen and (max-width: 576px) {
+    .main-container {
+        padding: 8px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+
+    p, accent {
+        font-size: 14px;
+    }
+
+    quote {
+        font-size: 42px;
+    }
+
+    form input {
+        height: 45px;
+        padding: 8px;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    form label {
+        font-size: 14px;
+    }
+}
+
+/* Media query voor extra kleine schermen */
+@media screen and (max-width: 375px) {
+    h1 {
+        font-size: 26px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+
+    h4 {
+        font-size: 15px;
+    }
+
+    p, accent {
+        font-size: 13px;
+    }
+
+    quote {
+        font-size: 32px;
+    }
+
+    form input {
+        height: 40px;
+        padding: 6px;
+        font-size: 13px;
+    }
 }

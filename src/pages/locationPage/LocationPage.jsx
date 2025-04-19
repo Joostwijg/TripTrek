@@ -135,7 +135,7 @@ const LocationPage = () => {
     }
 
     return (
-        <div>
+        <div className='locationPage'>
             <div className="upperSection">
                 <div
                     className="upperSection-left"

@@ -1,4 +1,4 @@
-.main-container.loginRegisterPage{
+.main-container.loginRegisterPage {
     height: 100vh;
     background-image: url("../../assets/backgrounds/Login_Register_Background.png");
     background-size: cover;
@@ -7,8 +7,6 @@
     overflow: hidden;
     position: relative;
 }
-
-
 
 .login-section {
     width: 1400px;
@@ -42,47 +40,42 @@
 }
 
 .login-section {
-    transform: translateX(100%); /* Begin buiten het scherm aan de rechterkant */
+    transform: translateX(100%);
 }
 
 .register-section {
-    transform: translateX(-100%); /* Begin buiten het scherm aan de linkerkant */
+    transform: translateX(-100%);
 }
 
-/* Wanneer de login-sectie zichtbaar moet zijn (fade-in van rechts) */
 .fade-in.login {
     opacity: 1;
     visibility: visible;
     transition: 1.5s;
-    transform: translateX(0); /* Komt van rechts */
+    transform: translateX(0);
     pointer-events: auto;
 }
 
-/* Wanneer de login-sectie verborgen moet zijn (fade-out naar rechts) */
 .fade-out.login {
     opacity: 0;
     visibility: hidden;
-    transform: translateX(0%); /* Gaat naar rechts */
-    transition: 1.5s ;
+    transform: translateX(0%);
+    transition: 1.5s;
     pointer-events: none;
 }
 
-
-/* Wanneer de register-sectie zichtbaar moet zijn (fade-in van links) */
 .fade-in.register {
     opacity: 1;
     visibility: visible;
-    transition: 1s ;
-    transform: translateX(0); /* Komt van links */
+    transition: 1s;
+    transform: translateX(0);
     pointer-events: auto;
 }
 
-/* Wanneer de register-sectie verborgen moet zijn (fade-out naar links) */
 .fade-out.register {
     opacity: 0;
     visibility: hidden;
     transition: 1s;
-    transform: translateX(-30%); /* Gaat naar links */
+    transform: translateX(-30%);
     pointer-events: none;
 }
 
@@ -99,7 +92,6 @@
     visibility: hidden;
 }
 
-
 .login-quote {
     width: 700px;
 }
@@ -108,8 +100,7 @@
     color: var(--white);
 }
 
-
-.login-container{
+.login-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -122,11 +113,133 @@
     border-radius: 10px;
 }
 
-.login-quote {
-    width: 700px;
+/* ========== RESPONSIVE STRUCTUUR LOGIN/REGISTER PAGE ========== */
+
+/* Laptops & kleinere desktops */
+@media screen and (max-width: 1200px) {
+    .main-container.loginRegisterPage {
+        overflow-y: auto;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+    .login-section,
+    .register-section {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 15px;
+        box-sizing: border-box;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .login-quote {
+        display: none !important;
+    }
+
+    .login-container {
+        width: 450px;
+    }
 }
 
-.login-quote quote{
-    color: var(--white);
+/* Tablets & Mobiel */
+@media screen and (max-width: 992px) {
+    .main-container.loginRegisterPage {
+        overflow-y: auto;
+    }
+
+    .login-section,
+    .register-section {
+        position: absolute;
+        inset: 0;
+        margin: 5vh auto;
+        flex-direction: column;
+        height: auto;
+        gap: 30px;
+        padding: 30px 15px;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 600px;
+        box-sizing: border-box;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .login-quote {
+        display: none !important;
+    }
+
+    .login-container label {
+        font-size: 15px;
+    }
 }
 
+/* Kleine tablets & grote telefoons */
+@media screen and (max-width: 768px) {
+    .login-section,
+    .register-section {
+        gap: 20px;
+        max-width: 500px;
+        padding: 25px 15px;
+        margin: 6vh auto;
+    }
+
+    .login-container {
+        padding: 20px 30px;
+    }
+
+    .login-container label {
+        font-size: 14px;
+    }
+}
+
+/* Mobiele telefoons */
+@media screen and (max-width: 576px) {
+    .main-container.loginRegisterPage {
+        overflow-y: auto;
+    }
+
+    .login-section,
+    .register-section {
+        position: absolute;
+        inset: 0;
+        margin: 7vh auto;
+        flex-direction: column;
+        gap: 15px;
+        padding: 25px 10px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-container {
+        padding: 20px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .login-container label {
+        font-size: 13px;
+    }
+
+    .login-quote {
+        display: none !important;
+    }
+}
+
+/* Extra kleine telefoons */
+@media screen and (max-width: 375px) {
+    .login-container {
+        padding: 15px;
+    }
+
+    .login-container label {
+        font-size: 12px;
+    }
+}

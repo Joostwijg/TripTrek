@@ -7,9 +7,11 @@
     background-color: rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     z-index: 1000;
     overflow-y: auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
 }
 
 .all-reviews .popup-container {
@@ -18,12 +20,15 @@
     border-radius: 15px;
     width: 100%;
     max-width: 1000px;
-    max-height: 90vh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    box-sizing: border-box;
+    height: auto;
+    max-height: none;
+    margin: auto;
 }
 
 .all-reviews .popup-body {
@@ -33,6 +38,9 @@
     overflow-y: auto;
     width: 90%;
     max-width: 900px;
+    box-sizing: border-box;
+    flex: 1;
+    min-width: 0;
 }
 
 .all-reviews .popup-title h3 {
@@ -41,6 +49,7 @@
     color: var(--black);
     text-align: center;
     margin-bottom: 20px;
+    overflow-wrap: break-word;
 }
 
 .all-reviews .sort-row {
@@ -48,6 +57,7 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .all-reviews .sort-row select {
@@ -60,11 +70,12 @@
 }
 
 .all-reviews .popup-form-container {
-    overflow-y: auto;
-    max-height: 60vh;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    /* Geen scroll hier! */
 }
 
 .all-reviews .review-item {
@@ -88,6 +99,8 @@
     margin: 5px 0;
     font-size: 15px;
     color: var(--black);
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 .all-reviews .pagination-controls {
@@ -96,6 +109,7 @@
     align-items: center;
     margin-top: 25px;
     font-weight: bold;
+    flex-wrap: wrap;
 }
 
 .all-reviews .close-button-row {
@@ -116,10 +130,75 @@
     cursor: not-allowed;
 }
 
-.all-reviews .review-item p {
-    margin: 5px 0;
-    font-size: 15px;
-    color: var(--black);
-    word-break: break-word;
-    overflow-wrap: anywhere;
+/* ========== MEDIA QUERIES ========== */
+
+@media screen and (max-width: 1200px) {
+    .all-reviews .popup-container {
+        max-width: 90%;
+        border-left: none;
+        border-top: 25px solid var(--orange);
+    }
+
+    .all-reviews .popup-body {
+        width: 100%;
+        padding: 20px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .popup-overlay.all-reviews {
+        align-items: flex-start;
+        padding: 30px 15px;
+    }
+
+    .all-reviews .popup-container {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 12px;
+        border-left: none;
+        border-top: 25px solid var(--orange);
+        margin: 0 auto;
+        flex-direction: column;
+        box-sizing: border-box;
+    }
+
+    .all-reviews .popup-body {
+        padding: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .popup-overlay.all-reviews {
+        padding: 20px 10px;
+    }
+
+    .all-reviews .popup-container {
+        padding: 10px;
+        margin: 10px;
+        border-top: 15px solid var(--orange);
+        border-radius: 10px;
+    }
+
+    .all-reviews .popup-body {
+        padding: 10px;
+    }
+
+    .all-reviews .popup-title h3 {
+        font-size: 22px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .all-reviews .popup-container {
+        padding: 5px;
+        margin: 5px;
+        border-top: 10px solid var(--orange);
+        border-radius: 8px;
+    }
+
+    .all-reviews .popup-body {
+        padding: 8px;
+    }
 }

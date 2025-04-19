@@ -1,11 +1,14 @@
 import "./AllReviewsPopup.css";
 import { useState, useEffect, useRef } from "react";
+import useBodyScrollLock from "../../hooks/useBodyScrollLock.jsx";
 
 const AllReviewsPopup = ({ isOpen, onClose, reviews }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [sortOrder, setSortOrder] = useState("desc");
     const REVIEWS_PER_PAGE = 4;
     const popupRef = useRef(null);
+
+    useBodyScrollLock(isOpen);
 
     useEffect(() => {
         if (isOpen) {

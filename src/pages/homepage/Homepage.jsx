@@ -118,9 +118,7 @@ const Home = () => {
 
 
     return (
-
-
-        <div >
+        <div className="main-content-container">
             <div className="content-container">
                 <div className="content-left-container">
                     <div className="content-left-upper-container">

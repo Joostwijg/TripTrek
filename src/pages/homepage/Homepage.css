@@ -1,5 +1,6 @@
 .main-container {
     height: 100%;
+    width: 100%;
 }
 
 .homepage {
@@ -12,23 +13,25 @@
     justify-content: start;
     min-height: 100vh;
     height: auto;
-
+    width: 100%;
 }
 
 .content-container {
     display: flex;
     flex-direction: row;
-    padding: 0;
     height: auto;
-    width: 1500px;
-    margin-top: 30px;
+    width: 100%;
+    max-width: 1500px;
+    margin: 30px auto 0;
     gap: 30px;
+    padding: 0 15px;
+    box-sizing: border-box;
 }
 
 .content-left-container {
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 620px;
     height: 100%;
     gap: 30px;
 }
@@ -36,7 +39,7 @@
 .content-right-container {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 850px;
     min-height: 800px;
     padding: 20px;
     background-color: var(--grey);
@@ -60,7 +63,6 @@
     border-color: var(--green);
     display: flex;
     flex-direction: column;
-
 }
 
 .container-profile-picture {
@@ -219,3 +221,204 @@
     text-align: center;
 }
 
+/* Media query voor grotere tablets en kleinere desktops */
+@media screen and (max-width: 1200px) {
+    .content-container {
+        flex-direction: column;
+        width: 100%;
+        max-width: none;
+        padding: 0 15px;
+    }
+
+    .content-left-container,
+    .content-right-container {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .content-container {
+        width: 100%;
+        max-width: none;
+        padding: 0 15px;
+        gap: 20px;
+    }
+
+    .profile-picture {
+        width: 120px;
+        height: 120px;
+    }
+
+    .follow-information {
+        gap: 40px;
+    }
+
+    .follow-information-following p,
+    .follow-information-followers p {
+        font-size: 24px;
+    }
+
+    .moderator-notifications {
+        padding: 20px;
+    }
+
+    .recent-locations {
+        padding: 15px 20px 20px 20px;
+    }
+}
+
+/* Media query voor tablets en kleinere schermen */
+@media screen and (max-width: 768px) {
+    .homepage {
+        width: 100%;
+    }
+
+    .content-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0 15px;
+        margin-top: 20px;
+        width: 100%;
+        max-width: none;
+    }
+
+    .content-left-container,
+    .content-right-container {
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+    }
+
+    .content-right-container {
+        min-height: 600px;
+    }
+
+    .follow-information {
+        gap: 30px;
+    }
+}
+
+/* Media query voor smartphones */
+@media screen and (max-width: 576px) {
+    .content-container {
+        width: 100%;
+        max-width: none;
+        padding: 0 15px;
+        box-sizing: border-box;
+        margin-top: 15px;
+    }
+
+    .content-left-container,
+    .content-right-container {
+        width: 100%;
+        max-width: none;
+    }
+
+    .content-left-upper-container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .container-profile-picture {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+    }
+
+    .container-personal-information {
+        width: 90%;
+        margin: 20px 0;
+    }
+
+    .container-personal-information p {
+        margin-bottom: 20px;
+    }
+
+    .follow-information {
+        gap: 20px;
+    }
+
+    .follow-information-following p,
+    .follow-information-followers p {
+        font-size: 20px;
+    }
+
+    .edit-profile-button {
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .moderator-notifications {
+        padding: 15px;
+    }
+
+    .moderator-notifications h3 {
+        font-size: 18px;
+    }
+
+    .button-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .text-button.reject {
+        margin-left: 0;
+    }
+
+    .recent-locations {
+        padding: 10px 15px 15px 15px;
+    }
+
+    .recent-locations li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Extra kleine apparaten */
+@media screen and (max-width: 375px) {
+    .content-container {
+        padding: 0 15px;
+        margin-top: 10px;
+    }
+
+    .profile-picture {
+        width: 80px;
+        height: 80px;
+    }
+
+    .container-personal-information h2 {
+        font-size: 18px;
+    }
+
+    .container-personal-information p {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    .follow-information {
+        gap: 15px;
+    }
+
+    .follow-information-following h4,
+    .follow-information-followers h4 {
+        font-size: 14px;
+    }
+
+    .follow-information-following p,
+    .follow-information-followers p {
+        font-size: 18px;
+    }
+
+    .content-left-under-container h3 {
+        font-size: 16px;
+    }
+}

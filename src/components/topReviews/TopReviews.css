@@ -39,6 +39,11 @@
 .review-text.expanded {
     max-height: 500px;
 }
+
+.read-more-button:hover {
+    cursor: pointer;
+}
+
 .view-all-button {
     all: unset;
     display: flex;

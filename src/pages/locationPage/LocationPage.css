@@ -7,18 +7,24 @@
     background-repeat: no-repeat;
     overflow: hidden;
     position: relative;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.upperSection, .middleSection, .bottomSection  {
+.upperSection, .middleSection, .bottomSection {
     display: flex;
     flex-direction: row;
-    width: 1500px;
+    width: 100%;
+    max-width: 1500px;
     gap: 30px;
-    margin-top: 30px;
+    margin: 30px auto 0;
+    padding: 0 15px;
+    box-sizing: border-box;
 }
 
-.upperSection-left, .upperSection-right, .bottomSection-left, .bottomSection-right, .content-middleSection  {
+.upperSection-left, .upperSection-right, .bottomSection-left, .bottomSection-right, .content-middleSection {
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -29,7 +35,6 @@
     border-radius: 15px;
     padding: 20px;
     border-top: solid 15px;
-
 }
 
 .upperSection-left {
@@ -56,10 +61,10 @@
     gap: 40px;
 }
 
-.middleSection h2{
+.middleSection h2 {
     margin-bottom: 20px;
-
 }
+
 .middleSection p {
     overflow: visible;
     max-width: 1500px;
@@ -86,17 +91,13 @@
     transform: scale(1.01);
 }
 
-
 .bottomSection-left {
     border-color: var(--green);
-
 }
 
 .bottomSection-right {
     border-color: var(--orange);
 }
-
-
 
 .content-middleSection {
     width: 100%;
@@ -106,7 +107,6 @@
     align-items: center;
     height: 750px;
     border-top: none;
-
 }
 
 .middleSection-title, .middleSection-information, .middleSection-gallery {
@@ -116,6 +116,133 @@
     justify-content: center;
 }
 
+/* ========== RESPONSIVE STRUCTUUR LOCATIONPAGE ========== */
 
+/* Grotere tablets en kleinere desktops */
+@media screen and (max-width: 1200px) {
+    .upperSection,
+    .middleSection,
+    .bottomSection {
+        flex-direction: column;
+        width: 100%;
+        max-width: none;
+        margin-top: 30px;
+        padding: 0 15px;
+        box-sizing: border-box;
+        gap: 30px;
+    }
 
+    .upperSection-left,
+    .upperSection-right,
+    .bottomSection-left,
+    .bottomSection-right,
+    .content-middleSection {
+        width: 100%;
+    }
 
+    .middleSection p {
+        width: 100%;
+    }
+
+    .gallery-image {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Tablets */
+@media screen and (max-width: 992px) {
+    .upperSection,
+    .middleSection,
+    .bottomSection {
+        gap: 25px;
+        padding: 0 15px;
+    }
+
+    .upperSection-right .buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+}
+
+/* Kleine tablets en grotere telefoons */
+@media screen and (max-width: 768px) {
+    .upperSection,
+    .middleSection,
+    .bottomSection {
+        gap: 20px;
+        padding: 0 15px;
+    }
+
+    .upperSection-left,
+    .upperSection-right,
+    .bottomSection-left,
+    .bottomSection-right {
+        padding: 15px;
+    }
+
+    .middleSection p {
+        font-size: 15px;
+    }
+
+    .gallery-container {
+        gap: 15px;
+    }
+
+    .content-middleSection {
+        height: auto;
+        padding: 15px 0;
+    }
+}
+
+/* Smartphones */
+@media screen and (max-width: 576px) {
+    .upperSection,
+    .middleSection,
+    .bottomSection {
+        gap: 15px;
+        padding: 0 15px;
+        margin-top: 20px;
+    }
+
+    .upperSection-right .buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .gallery-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .gallery-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .middleSection p {
+        font-size: 14px;
+    }
+}
+
+/* Extra kleine telefoons */
+@media screen and (max-width: 375px) {
+    .upperSection,
+    .middleSection,
+    .bottomSection {
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .upperSection-left h2 {
+        font-size: 20px;
+    }
+
+    .middleSection p {
+        font-size: 13px;
+    }
+}
