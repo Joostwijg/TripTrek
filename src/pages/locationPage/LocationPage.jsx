@@ -1,6 +1,6 @@
 import Header from "../../components/header/Header.jsx";
 import { useOutletContext, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "./LocationPage.css";
 
@@ -16,55 +16,30 @@ const LocationPage = () => {
 
     const [locationData, setLocationData] = useState(null);
     const [reviews, setReviews] = useState([]);
-    const [userData, setUserData] = useState({
-        id: null,
-        firstName: "",
-        lastName: ""
-    });
-
+    const [userData, setUserData] = useState({ id: null, firstName: "", lastName: "" });
     const [isReviewPopupOpen, setIsReviewPopupOpen] = useState(false);
     const [isAllReviewsOpen, setIsAllReviewsOpen] = useState(false);
 
-    useEffect(() => {
-        if (locationData?.mainImage) {
-            console.log("🖼️ BackgroundImage wordt gezet:", locationData.mainImage);
-            setBackgroundImage(locationData.mainImage);
+    const fetchUser = useCallback(async () => {
+        const token = localStorage.getItem("authToken");
+        if (!token) return;
+
+        try {
+            const response = await axios.get("http://localhost:8080/api/users/profile", {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setUserData({
+                id: response.data.id,
+                firstName: response.data.firstName,
+                lastName: response.data.lastName
+            });
+        } catch (error) {
+            console.error("Fout bij ophalen gebruiker:", error);
         }
-    }, [locationData]);
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            const token = localStorage.getItem("authToken");
-            if (!token) return;
-
-            try {
-                const response = await axios.get("http://localhost:8080/api/users/profile", {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-
-                setUserData({
-                    id: response.data.id,
-                    firstName: response.data.firstName,
-                    lastName: response.data.lastName
-                });
-            } catch (error) {
-                console.error("Fout bij ophalen gebruiker:", error);
-            }
-        };
-
-        fetchUser();
     }, []);
 
-    const fetchLocationData = async () => {
-        if (!slug) {
-            console.warn("❗ Geen slug gevonden in de URL.");
-            return;
-        }
-
-        console.log("🔎 Slug uit URL:", slug);
-
+    const fetchLocationData = useCallback(async () => {
+        if (!slug) return;
         try {
             const encodedSlug = encodeURIComponent(slug);
             const response = await axios.get(`http://localhost:8080/api/locations/slug/${encodedSlug}`);
@@ -82,29 +57,19 @@ const LocationPage = () => {
                 setLocationData(null);
             }
         } catch (error) {
-            console.log("❌ Fout bij ophalen locatie:", error);
+            console.error("Fout bij ophalen locatie:", error);
             setLocationData(null);
         }
-    };
+    }, [slug]);
 
-    const fetchReviews = async (locationId) => {
+    const fetchReviews = useCallback(async (locationId) => {
         try {
             const response = await axios.get(`http://localhost:8080/api/reviews/location/id/${locationId}`);
             setReviews(response.data || []);
         } catch (error) {
-            console.log("❌ Fout bij ophalen reviews:", error);
+            console.error("Fout bij ophalen reviews:", error);
         }
-    };
-
-    useEffect(() => {
-        fetchLocationData();
-    }, [slug]);
-
-    useEffect(() => {
-        if (locationData?.id) {
-            fetchReviews(locationData.id);
-        }
-    }, [locationData]);
+    }, []);
 
     const handleSubmitReview = async (reviewData) => {
         try {
@@ -119,9 +84,29 @@ const LocationPage = () => {
             await fetchReviews(locationData.id);
             setIsReviewPopupOpen(false);
         } catch (error) {
-            console.error("❌ Error posting review", error);
+            console.error("Error posting review", error);
         }
     };
+
+    useEffect(() => {
+        fetchUser();
+    }, [fetchUser]);
+
+    useEffect(() => {
+        fetchLocationData();
+    }, [fetchLocationData]);
+
+    useEffect(() => {
+        if (locationData?.mainImage) {
+            setBackgroundImage(locationData.mainImage);
+        }
+    }, [locationData, setBackgroundImage]);
+
+    useEffect(() => {
+        if (locationData?.id) {
+            fetchReviews(locationData.id);
+        }
+    }, [locationData, fetchReviews]);
 
     if (locationData === null) {
         return (
@@ -172,7 +157,7 @@ const LocationPage = () => {
             </div>
 
             <div className="bottomSection">
-                <div className="bottomSection-left">t</div>
+                <div className="bottomSection-left"></div>
                 <div className="bottomSection-right">
                     <TopReviews
                         reviews={reviews}

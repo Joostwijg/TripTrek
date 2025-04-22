@@ -1,135 +1,129 @@
 import Header from "../../components/header/Header.jsx";
 import './Homepage.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import EditProfilePopup from "../../components/editProfilePopup/EditProfilePopup.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-
     const [pendingLocations, setPendingLocations] = useState([]);
     const [pendingReviews, setPendingReviews] = useState([]);
     const [recentLocations, setRecentLocations] = useState([]);
-    const navigate = useNavigate();
-
     const [userData, setUserData] = useState({
         firstName: "",
         lastName: "",
         registrationDate: "",
     });
 
-
+    const navigate = useNavigate();
+    const token = localStorage.getItem("authToken");
 
     const openPopup = () => setIsPopupOpen(true);
     const closePopup = () => setIsPopupOpen(false);
 
-
-    useEffect(() => {
-        const token = localStorage.getItem('authToken');
-        if (!token) {
-            console.log("No token found, user is not logged in.");
-            return;
-        }
-
-        const fetchUserData = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/api/users/profile', {
-                    headers: { 'Authorization': `Bearer ${token}` }
+    const fetchUserData = useCallback(async () => {
+        if (!token) return;
+        try {
+            const response = await axios.get('http://localhost:8080/api/users/profile', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (response.data) {
+                setUserData({
+                    firstName: response.data.firstName || "",
+                    lastName: response.data.lastName || "",
+                    registrationDate: response.data.registrationDate || "",
+                    address: response.data.address || "",
+                    city: response.data.city || "",
+                    state: response.data.state || "",
+                    zipCode: response.data.zipCode || "",
+                    country: response.data.country || "",
+                    role: response.data.role || "",
                 });
-
-                console.log("Fetched user data:", response.data);
-
-                if (response.data) {
-                    setUserData({
-                        firstName: response.data.firstName || "",
-                        lastName: response.data.lastName || "",
-                        registrationDate: response.data.registrationDate || "",
-                        address: response.data.address || "",
-                        city: response.data.city || "",
-                        state: response.data.state || "",
-                        zipCode: response.data.zipCode || "",
-                        country: response.data.country || "",
-                        role: response.data.role || "",
-                    });
-                }
-            } catch (error) {
-                console.log("Something went wrong", error);
             }
-        };
-
-        fetchUserData();
-    }, []);
-
-    useEffect(() => {
-        if (userData.role === "moderator") {
-            axios.get("http://localhost:8080/api/locations/pending").then(res => setPendingLocations(res.data));
-            axios.get("http://localhost:8080/api/reviews/pending").then(res => setPendingReviews(res.data));
+        } catch (error) {
+            console.log("Something went wrong", error);
         }
-    }, [userData.role])
+    }, [token]);
 
-    useEffect(() => {
-        const fetchRecentLocations = async () => {
-            try {
-                const response = await axios.get("http://localhost:8080/api/locations");
-                const sorted = response.data
-                    .filter(loc => loc.approved)
-                    .sort((a, b) => b.id - a.id) // meest recente bovenaan
-                    .slice(0, 5);
-                setRecentLocations(sorted);
-            } catch (error) {
-                console.error("Fout bij ophalen recente locaties", error);
-            }
-        };
-
-        fetchRecentLocations();
+    const fetchRecentLocations = useCallback(async () => {
+        try {
+            const response = await axios.get("http://localhost:8080/api/locations");
+            const sorted = response.data
+                .filter(loc => loc.approved)
+                .sort((a, b) => b.id - a.id)
+                .slice(0, 5);
+            setRecentLocations(sorted);
+        } catch (error) {
+            console.error("Fout bij ophalen recente locaties", error);
+        }
     }, []);
 
+    const fetchPendingItems = useCallback(async () => {
+        if (userData.role === "moderator" && token) {
+            const config = { headers: { Authorization: `Bearer ${token}` } };
+            const [locRes, revRes] = await Promise.all([
+                axios.get("http://localhost:8080/api/locations/pending", config),
+                axios.get("http://localhost:8080/api/reviews/pending", config)
+            ]);
+            setPendingLocations(locRes.data);
+            setPendingReviews(revRes.data);
+        }
+    }, [token, userData.role]);
 
     const approveLocation = async (id) => {
-        await axios.patch(`http://localhost:8080/api/locations/approve/${id}`)
+        await axios.patch(`http://localhost:8080/api/locations/approve/${id}`, {}, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
         setPendingLocations(prev => prev.filter(loc => loc.id !== id));
-    }
+    };
 
     const approveReview = async (id) => {
-        await axios.patch(`http://localhost:8080/api/reviews/approve/${id}`);
+        await axios.patch(`http://localhost:8080/api/reviews/approve/${id}`, {}, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
         setPendingReviews(prev => prev.filter(rev => rev.id !== id));
     };
 
     const rejectLocation = async (id) => {
-        await axios.delete(`http://localhost:8080/api/locations/reject/${id}`);
+        await axios.delete(`http://localhost:8080/api/locations/reject/${id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
         setPendingLocations(prev => prev.filter(loc => loc.id !== id));
-    }
-
-    const rejectReview = async (id) => {
-        await axios.delete(`http://localhost:8080/api/reviews/reject/${id}`);
-        setPendingReviews(prev => prev.filter(rev => rev.id !== id));
-    }
-
-    const handleProfileUpdate = (updatedData) => {
-        setUserData((prevData) => ({
-            ...prevData,
-            ...updatedData
-        }));
     };
 
+    const rejectReview = async (id) => {
+        await axios.delete(`http://localhost:8080/api/reviews/reject/${id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        setPendingReviews(prev => prev.filter(rev => rev.id !== id));
+    };
 
+    const handleProfileUpdate = (updatedData) => {
+        setUserData(prevData => ({ ...prevData, ...updatedData }));
+    };
 
+    useEffect(() => {
+        fetchUserData();
+    }, [fetchUserData]);
+
+    useEffect(() => {
+        fetchPendingItems();
+    }, [fetchPendingItems]);
+
+    useEffect(() => {
+        fetchRecentLocations();
+    }, [fetchRecentLocations]);
 
     return (
         <div className="main-content-container">
             <div className="content-container">
                 <div className="content-left-container">
                     <div className="content-left-upper-container">
-                        <div className="container-profile-picture">
-                            <img src="/src/assets/test/Mask group.png" alt="" className='profile-picture'/>
-                        </div>
                         <div className="container-personal-information">
                             <h2>
-                                {userData.firstName && userData.lastName
-                                    ? `${userData.firstName} ${userData.lastName}`
-                                    : ''}
+                                {userData.firstName && userData.lastName ? `${userData.firstName} ${userData.lastName}` : ''}
                             </h2>
                             <p>Registration date: {userData.registrationDate?.split("T")[0]}</p>
                             <div className="follow-information">
@@ -147,7 +141,6 @@ const Home = () => {
                                 <i className="fa-solid fa-arrow-right"></i>
                             </div>
                         </div>
-
                     </div>
                     <div className="content-left-under-container">
                         <h3>Recently Added Locations</h3>
@@ -155,10 +148,10 @@ const Home = () => {
                             {recentLocations.map(loc => (
                                 <li key={loc.id}>
                                     <strong>{loc.name}</strong>
-                                    <br/>
+                                    <br />
                                     <button
                                         className="text-button"
-                                        onClick={() => window.location.href = `/location/${loc.slug}`}
+                                        onClick={() => navigate(`/location/${loc.slug}`)}
                                     >
                                         More info →
                                     </button>
@@ -166,8 +159,8 @@ const Home = () => {
                             ))}
                         </ul>
                     </div>
-
                 </div>
+
                 <div className="content-right-container">
                     {userData.role === "moderator" && (
                         <div className="moderator-notifications">
@@ -176,17 +169,12 @@ const Home = () => {
                                 <ul>
                                     {pendingLocations.map(loc => (
                                         <li key={loc.id}>
-                                        <p></p>
                                             <strong>{loc.name}</strong>
-                                            <br/>
+                                            <br />
                                             {loc.description}
                                             <div className="button-row">
-                                                <button className="text-button"
-                                                    onClick={() => approveLocation(loc.id)}>Approve
-                                                </button>
-                                                <button className="text-button reject"
-                                                    onClick={() => rejectLocation(loc.id)}>Reject
-                                                </button>
+                                                <button className="text-button" onClick={() => approveLocation(loc.id)}>Approve</button>
+                                                <button className="text-button reject" onClick={() => rejectLocation(loc.id)}>Reject</button>
                                             </div>
                                         </li>
                                     ))}
@@ -202,14 +190,9 @@ const Home = () => {
                                             <p><strong>Rating:</strong> {rev.rating} ⭐</p>
                                             {rev.comment}
                                             <div className="button-row">
-                                                <button className="text-button"
-                                                    onClick={() => approveReview(rev.id)}>Approve
-                                                </button>
-                                                <button className="text-button reject"
-                                                    onClick={() => rejectReview(rev.id)}>Reject
-                                                </button>
+                                                <button className="text-button" onClick={() => approveReview(rev.id)}>Approve</button>
+                                                <button className="text-button reject" onClick={() => rejectReview(rev.id)}>Reject</button>
                                             </div>
-
                                         </li>
                                     ))}
                                 </ul>
@@ -217,11 +200,10 @@ const Home = () => {
                         </div>
                     )}
                 </div>
-
             </div>
             <EditProfilePopup isOpen={isPopupOpen} onClose={closePopup} onProfileUpdate={handleProfileUpdate} />
         </div>
     );
-}
+};
 
 export default Home;

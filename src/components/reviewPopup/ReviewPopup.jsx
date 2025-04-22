@@ -18,23 +18,23 @@ const ReviewPopup = ({ isOpen, onClose, onSubmit, locationId, userId }) => {
     }, [isOpen]);
 
     useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (e.key === "Escape") onClose();
-        };
+        const handleKeyDown = (e) => e.key === "Escape" && onClose();
         const handleClickOutside = (e) => {
-            if (popupRef.current && !popupRef.current.contains(e.target)) onClose();
+            if (popupRef.current && !popupRef.current.contains(e.target)) {
+                onClose();
+            }
         };
+
         if (isOpen) {
             document.addEventListener("keydown", handleKeyDown);
             document.addEventListener("mousedown", handleClickOutside);
         }
+
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isOpen, onClose]);
-
-    if (!isOpen) return null;
 
     const handleSubmit = () => {
         if (rating > 0 && comment.trim()) {
@@ -49,6 +49,8 @@ const ReviewPopup = ({ isOpen, onClose, onSubmit, locationId, userId }) => {
             onClose();
         }
     };
+
+    if (!isOpen) return null;
 
     return (
         <div className="popup-overlay review">
