@@ -1,19 +1,14 @@
 import React, { useState } from "react";
-import {registerUser, loginUser} from "../../services/userService.jsx";
+import { registerUser, loginUser } from "../../services/userService.jsx";
 import Button from "../button/Button.jsx";
 import { useNavigate } from "react-router-dom";
 
-
-
-
-
-const Register = ({toggleSection}) => {
+const Register = ({ toggleSection }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,21 +21,15 @@ const Register = ({toggleSection}) => {
 
         try {
             const newUser = { email, password, confirmPassword };
-
             await registerUser(newUser);
 
             const loginResponse = await loginUser({ email, password });
-
-
-
-
+            localStorage.setItem("authToken", loginResponse.token);
             navigate("/home");
         } catch (error) {
-            setMessage(error);
+            setMessage(error.message || "Registration failed");
         }
     };
-
-
 
     return (
         <div className="div-login">
@@ -51,6 +40,7 @@ const Register = ({toggleSection}) => {
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    required
                 />
                 <h4><label htmlFor="password">Password:</label></h4>
                 <input
@@ -68,7 +58,9 @@ const Register = ({toggleSection}) => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                 />
-                <p>{message}</p>
+
+                {message && <p>{message}</p>}
+
                 <Button
                     type="submit"
                     variant="button-orange"
@@ -82,7 +74,7 @@ const Register = ({toggleSection}) => {
                 </Button>
             </form>
         </div>
-    )
-}
+    );
+};
 
 export default Register;

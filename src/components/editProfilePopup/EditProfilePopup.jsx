@@ -102,7 +102,6 @@ const EditProfilePopup = ({ isOpen, onClose, onProfileUpdate }) => {
         e.preventDefault();
 
         if (formData.password !== formData.confirmPassword) {
-            alert("Passwords are not matching.");
             return;
         }
 
@@ -133,9 +132,7 @@ const EditProfilePopup = ({ isOpen, onClose, onProfileUpdate }) => {
                 <div className="popup-body">
                     <div className="popup-header">
                         <div className="popup-title"><h2>Edit Profile</h2></div>
-                        <div className="popup-profile-picture">
-                            <div className="profile-picture-placeholder">Upload your profile picture</div>
-                        </div>
+
                     </div>
                     <div className="popup-form-container">
                         <form onSubmit={handleSubmit}>

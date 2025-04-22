@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { loginUser } from "../../services/userService.jsx";
 import Button from "../button/Button.jsx";
-import "./Login.css"
+import "./Login.css";
 
 const Login = ({ toggleSection }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [message, setMessage] = useState(""); //
+    const [message, setMessage] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const loginDetails = ( {email, password})
+            const loginDetails = { email, password };
             const response = await loginUser(loginDetails);
 
             localStorage.setItem("authToken", response.token);
             window.location.href = "/home";
         } catch (error) {
-            setMessage("Error during login");
+            setMessage(error.message || "Error during login");
         }
     };
 
@@ -45,7 +45,9 @@ const Login = ({ toggleSection }) => {
                     className="smallText"
                     href="/forgot-password"
                 >Forgot password</a>
-                <p>{message && <p>{message}</p>}</p>
+
+                {message && <p>{message}</p>}
+
                 <Button
                     type="submit"
                     variant="button-white"
@@ -55,11 +57,9 @@ const Login = ({ toggleSection }) => {
                     type="button"
                     onClick={toggleSection}
                     variant="button-orange"
-
                 >Register
                 </Button>
             </form>
-
         </div>
     );
 };

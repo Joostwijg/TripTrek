@@ -1,35 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 
-/*////////////////////////////////////////////////////////////////////////
-Table of Contents:
-    1. Global Styles
-    2. Global Typography
-    3. Global Colors
-    4. Global Form CSS
-    5. Responsive Styles
-////////////////////////////////////////////////////////////////////////*/
+/* GLOBAL VARIABLES */
+:root {
+    --blue: #0052A3;
+    --green: #4CAF50;
+    --orange: #FFA500;
+    --grey: #F2F2F2;
+    --darkgrey: #A0A0A0;
+    --black: #333333;
+    --transparent: transparent;
+    --white: #FFFFFF;
+}
 
-/*////////////////////////
-    1. Global Styles
-////////////////////////*/
-
-/* CSS Reset */
+/* RESET + BASE STYLING */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
 }
 
 body.no-scroll {
     overflow: hidden !important;
     height: 100vh;
-}
-
-
-html, body {
-    overflow-x: hidden;
-    width: 100%;
 }
 
 .main-container {
@@ -42,47 +41,19 @@ html, body {
     max-width: 100%;
 }
 
-* {
-    font-family: 'Montserrat', sans-serif;
-}
-
-/*////////////////////////
-    2. Global Typography
-////////////////////////*/
-
+/* TYPOGRAPHY */
 h1, h2, h3, h4, h5, h6, p, accent {
-    font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     line-height: 1.2;
     margin-bottom: 0.5em;
 }
 
-h1 {
-    font-size: 48px;
-}
-
-h2 {
-    font-size: 36px;
-}
-
-h3 {
-    font-size: 24px;
-}
-
-h4 {
-    font-size: 20px;
-}
-
-p {
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 1.5;
-}
-
-accent {
-    font-weight: 500;
-    font-size: 16px;
-}
+h1 { font-size: 48px; }
+h2 { font-size: 36px; }
+h3 { font-size: 24px; }
+h4 { font-size: 20px; }
+p { font-weight: 400; font-size: 16px; line-height: 1.5; }
+accent { font-weight: 500; font-size: 16px; }
 
 quote {
     font-family: 'Lora', serif;
@@ -91,25 +62,7 @@ quote {
     font-weight: 600;
 }
 
-/*////////////////////////
-    3. Global Colors
-////////////////////////*/
-
-:root {
-    --blue: #0052A3;
-    --green: #4CAF50;
-    --orange: #FFA500;
-    --grey: #F2F2F2;
-    --darkgrey: #A0A0A0;
-    --black: #333333;
-    --transparent: transparent;
-    --white: #FFFFFF;
-}
-
-/*///////////////////////
-    4. Global Form CSS
-////////////////////// */
-
+/* FORMS */
 form {
     display: flex;
     flex-direction: column;
@@ -117,20 +70,18 @@ form {
 }
 
 form label {
-    color: white;
-    width: 100%;
+    color: var(--white);
     margin-bottom: 5px;
 }
 
 form input {
-    font-family: 'Montserrat', sans-serif;
     font-size: 16px;
-    color: white;
+    color: var(--white);
     width: 100%;
     padding: 15px;
     background-color: var(--transparent);
     border-radius: 10px;
-    border: solid 2px var(--white);
+    border: 2px solid var(--white);
     margin-bottom: 10px;
     height: 60px;
 }
@@ -139,142 +90,44 @@ form input:focus {
     outline: none;
 }
 
-/*////////////////////////
-    5. Responsive Styles
-////////////////////////*/
-
-/* Media query voor tablets */
+/* RESPONSIVE TYPOGRAPHY */
 @media screen and (max-width: 1024px) {
-    h1 {
-        font-size: 42px;
-    }
-
-    h2 {
-        font-size: 32px;
-    }
-
-    h3 {
-        font-size: 22px;
-    }
-
-    quote {
-        font-size: 72px;
-    }
-
-    form input {
-        height: 55px;
-        padding: 12px;
-    }
+    h1 { font-size: 42px; }
+    h2 { font-size: 32px; }
+    h3 { font-size: 22px; }
+    quote { font-size: 72px; }
+    form input { height: 55px; padding: 12px; }
 }
 
-/* Media query voor kleine tablets en grote smartphones */
 @media screen and (max-width: 768px) {
-    .main-container {
-        padding: 10px;
-    }
-
-    h1 {
-        font-size: 36px;
-    }
-
-    h2 {
-        font-size: 28px;
-    }
-
-    h3 {
-        font-size: 20px;
-    }
-
-    h4 {
-        font-size: 18px;
-    }
-
-    p, accent {
-        font-size: 15px;
-    }
-
-    quote {
-        font-size: 56px;
-    }
-
-    form input {
-        height: 50px;
-        padding: 10px;
-        font-size: 15px;
-    }
+    .main-container { padding: 10px; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 28px; }
+    h3 { font-size: 20px; }
+    h4 { font-size: 18px; }
+    p, accent { font-size: 15px; }
+    quote { font-size: 56px; }
+    form input { height: 50px; padding: 10px; font-size: 15px; }
 }
 
-/* Media query voor smartphones */
 @media screen and (max-width: 576px) {
-    .main-container {
-        padding: 8px;
-    }
-
-    h1 {
-        font-size: 30px;
-    }
-
-    h2 {
-        font-size: 24px;
-    }
-
-    h3 {
-        font-size: 18px;
-    }
-
-    h4 {
-        font-size: 16px;
-    }
-
-    p, accent {
-        font-size: 14px;
-    }
-
-    quote {
-        font-size: 42px;
-    }
-
-    form input {
-        height: 45px;
-        padding: 8px;
-        font-size: 14px;
-        margin-bottom: 8px;
-    }
-
-    form label {
-        font-size: 14px;
-    }
+    .main-container { padding: 8px; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 24px; }
+    h3 { font-size: 18px; }
+    h4 { font-size: 16px; }
+    p, accent { font-size: 14px; }
+    quote { font-size: 42px; }
+    form input { height: 45px; padding: 8px; font-size: 14px; margin-bottom: 8px; }
+    form label { font-size: 14px; }
 }
 
-/* Media query voor extra kleine schermen */
 @media screen and (max-width: 375px) {
-    h1 {
-        font-size: 26px;
-    }
-
-    h2 {
-        font-size: 22px;
-    }
-
-    h3 {
-        font-size: 16px;
-    }
-
-    h4 {
-        font-size: 15px;
-    }
-
-    p, accent {
-        font-size: 13px;
-    }
-
-    quote {
-        font-size: 32px;
-    }
-
-    form input {
-        height: 40px;
-        padding: 6px;
-        font-size: 13px;
-    }
+    h1 { font-size: 26px; }
+    h2 { font-size: 22px; }
+    h3 { font-size: 16px; }
+    h4 { font-size: 15px; }
+    p, accent { font-size: 13px; }
+    quote { font-size: 32px; }
+    form input { height: 40px; padding: 6px; font-size: 13px; }
 }
